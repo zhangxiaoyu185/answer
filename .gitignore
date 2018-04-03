@@ -25,7 +25,6 @@ target/
 .svn
 .DS_Store
 
-#resources
+#resource
 global/
 database/
-src/main/resources/global/config.ini

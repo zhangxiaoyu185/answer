@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>详情试卷表</title>
+    <link type="text/css" rel="stylesheet" href="../css/common/base-min.css" media="all"/>
+    <link type="text/css" rel="stylesheet" href="../css/common/index.css" media="all"/>
+    <script type="text/javascript" src="../js/jquery/jquery-1.8.3.min.js?ts=new Date()"></script>
+    <script type="text/javascript" src="../ckeditor/ckeditor.js?ts=new Date()"></script>
+    <script type="text/javascript" src="../ckfinder/ckfinder.js?ts=new Date()"></script>
+    <script type="text/javascript" src="../js/jquery/jquery-form.js?ts=new Date()"></script>
+    <script type="text/javascript" src="../js/jquery/jquery.qrcode.min.js?ts=new Date()"></script>
+    <script type="text/javascript" src="../js/layer/layer.js?ts=new Date()"></script>
+    <script type="text/javascript" src="../../common.js"></script>
+    <script type="text/javascript" src="../js/common/common.js?ts=new Date()"></script>
+    <script type="text/javascript" src="../js/question/corepapers_detail.js?ts=new Date()"></script>
+</head>
+<body>
+<div class="box">
+    <ul class="list">
+        <li class="list-li">
+            <label class="leftLi">所属教辅：</label>
+            <div class="rightLi">
+                <label class="crlngName"></label>
+            </div>
+        </li>
+        <li class="list-li">
+            <label class="leftLi">试卷名：</label>
+            <div class="rightLi">
+                <label class="crpesName"></label>
+            </div>
+        </li>
+        <li class="list-li">
+            <label class="leftLi">查看视频过期时间（小时）：</label>
+            <div class="rightLi">
+                <label class="crpesExpire"></label>
+            </div>
+        </li>
+        <li class="list-li">
+            <label class="leftLi">总分：</label>
+            <div class="rightLi">
+                <label class="crpesScore"></label>
+            </div>
+        </li>
+        <li class="list-li">
+            <label class="leftLi">创建时间：</label>
+            <div class="rightLi">
+                <label class="crpesCdate"></label>
+            </div>
+        </li>
+        <li class="list-li">
+            <label class="leftLi">修改时间：</label>
+            <div class="rightLi">
+                <label class="crpesUdate"></label>
+            </div>
+        </li>
+        <li class="list-li">
+            <label class="leftLi">试卷二维码：</label>
+            <div class="rightLi" id="qcode"></div>
+        </li>
+        <li class="list-li">
+            <label class="leftLi">二维码中URL路径：</label>
+            <div class="rightLi">
+                <label class="qurl"></label>
+            </div>
+        </li>
+        <li class="list-li">
+            <label class="leftLi">开放状态：</label>
+            <div class="rightLi">
+                <label class="crpesOpen"></label>
+            </div>
+        </li>
+        <li class="list-li">
+            <table class="tb">
+                <thead class="tb-head">
+                <tr>
+                    <td width="20%">题目名称</td>
+                    <td width="35%">答案</td>
+                    <td width="15%">分值</td>
+                    <td width="15%">视频目录</td>
+                    <td width="15%">视频名称</td>
+                </tr>
+                </thead>
+                <tbody class="tb-body">
+                <tr class="trHighLight">
+                    <!-- js生成表格头部 -->
+                </tr>
+                </tbody>
+                <tfoot class="tb-foot">
+                <tr>
+                    <!-- js生成表格底部 -->
+                </tr>
+                </tfoot>
+            </table>
+        </li>
+    </ul>
+</div>
+</body>
+</html>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaoyu.lingdian.entity.CoreDirMovie">
+	<resultMap id="coreDirMovieMapper" type="CoreDirMovie">
+		<id column="CRDIR_UNID" jdbcType="NUMERIC" property="crdirUnid" /><!-- 标识UNID -->
+		<result column="CRDIR_UUID" jdbcType="VARCHAR" property="crdirUuid" /><!-- 标识UUID -->
+		<result column="CRDIR_NAME" jdbcType="VARCHAR" property="crdirName" /><!-- 目录名称 -->
+	</resultMap>
+	<sql id="coreDirMovieAsProperty">
+		CRDIR_UNID AS crdirUnid,
+		CRDIR_UUID AS crdirUuid,
+		CRDIR_NAME AS crdirName
+	</sql>
+	<sql id="coreDirMovieFieldIf">
+		<if test="crdirUnid!=null" >CRDIR_UNID,</if>
+		<if test="crdirName!=null" >CRDIR_NAME,</if>
+		<if test="crdirUuid!=null" >CRDIR_UUID</if>
+	</sql>
+	<sql id="coreDirMovieProperty">
+		<if test="crdirUnid!=null" >#{crdirUnid,jdbcType=NUMERIC},</if>
+		<if test="crdirName!=null" >#{crdirName,jdbcType=VARCHAR},</if>
+		<if test="crdirUuid!=null" >#{crdirUuid,jdbcType=VARCHAR}</if>
+	</sql>
+	<sql id="coreDirMoviePropertyIf">
+		<if test="crdirUnid!=null" >CRDIR_UNID=#{crdirUnid,jdbcType=NUMERIC},</if>
+		<if test="crdirName!=null" >CRDIR_NAME=#{crdirName,jdbcType=VARCHAR},</if>
+		<if test="crdirUuid!=null" >CRDIR_UUID=#{crdirUuid,jdbcType=VARCHAR}</if>
+	</sql>
+	<insert id="insertCoreDirMovie" parameterType="coreDirMovie" useGeneratedKeys="true" keyProperty="id" >
+		INSERT INTO CORE_DIR_MOVIE(<include refid="coreDirMovieFieldIf" />) VALUES (<include refid="coreDirMovieProperty" />)
+	</insert>
+	<delete id="deleteCoreDirMovie" parameterType="CoreDirMovie">
+		DELETE FROM CORE_DIR_MOVIE <where> CRDIR_UUID=#{crdirUuid,jdbcType=VARCHAR} </where>
+	</delete>
+	<select id="getCoreDirMovie" resultMap="coreDirMovieMapper" parameterType="CoreDirMovie">
+		SELECT <include refid="coreDirMovieAsProperty" /> FROM CORE_DIR_MOVIE <where> CRDIR_UUID=#{crdirUuid,jdbcType=VARCHAR} </where>
+	</select>
+	<select id="getCoreDirMovieByName" resultMap="coreDirMovieMapper" parameterType="HashMap">
+		SELECT <include refid="coreDirMovieAsProperty" /> FROM CORE_DIR_MOVIE <where> CRDIR_NAME=#{crdirName,jdbcType=VARCHAR} </where>
+	</select>
+	<update id="updateCoreDirMovie" parameterType="CoreDirMovie">
+		UPDATE CORE_DIR_MOVIE<set><include refid="coreDirMoviePropertyIf" /></set> <where> CRDIR_UUID=#{crdirUuid,jdbcType=VARCHAR} </where>
+	</update>
+	<!--  批量删除-->
+	<delete id="deleteBatchCoreDirMovieByIds" parameterType="HashMap">
+		DELETE FROM CORE_DIR_MOVIE
+		<where>
+			<if test="list != null and list.size>0">
+				CRDIR_UUID in
+				<foreach item="item" index="id" collection="list" open="(" separator="," close=")">
+					'${item}'
+				</foreach>
+			</if>
+		</where>
+	</delete>
+	<!--  获取所有list-->
+	<select id="findCoreDirMovieForLists" resultMap="coreDirMovieMapper" parameterType="HashMap">
+		SELECT <include refid="coreDirMovieAsProperty" /> 
+		FROM CORE_DIR_MOVIE
+	</select>
+	<!--  获取所有page-->
+	<select id="findCoreDirMovieForPages" resultMap="coreDirMovieMapper" parameterType="HashMap">
+		SELECT <include refid="coreDirMovieAsProperty" /> 
+		FROM CORE_DIR_MOVIE
+		<where>
+			1=1			
+			<if test="crdirName!=null and crdirName!=''" > AND CRDIR_NAME LIKE concat('%', #{crdirName,jdbcType=VARCHAR},'%')</if>
+		</where>
+	</select>
+<!-- 定制内容开始 --><!-- 定制内容结束 -->
+
+</mapper>

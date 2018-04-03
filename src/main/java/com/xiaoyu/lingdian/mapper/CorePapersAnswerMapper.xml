@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaoyu.lingdian.entity.CorePapersAnswer">
+    <resultMap id="corePapersAnswerMapper" type="CorePapersAnswer">
+        <id property="crpsaUnid" column="CRPSA_UNID" jdbcType="NUMERIC"/><!-- "标识UNID" -->
+        <result property="crpsaUuid" column="CRPSA_UUID" jdbcType="VARCHAR"/><!-- "标识UUID" -->
+        <result property="crpsaLening" column="CRPSA_LENING" jdbcType="VARCHAR"/><!-- "所属教辅" -->
+        <result property="crpsaPaper" column="CRPSA_PAPER" jdbcType="VARCHAR"/><!-- "所属试卷" -->
+        <result property="crpsaUser" column="CRPSA_USER" jdbcType="VARCHAR"/><!-- "所属用户" -->
+        <result property="crpsaPaperScore" column="CRPSA_PAPER_SCORE" jdbcType="NUMERIC"/><!-- "试卷分值" -->
+        <result property="crpsaScore" column="CRPSA_SCORE" jdbcType="NUMERIC"/><!-- "总得分" -->
+        <result property="crpsaQuestion" column="CRPSA_QUESTION" jdbcType="VARCHAR"/><!-- "题目回答集合" -->
+        <result property="crpsaExpire" column="CRPSA_EXPIRE" jdbcType="VARCHAR"/><!-- "查看视频过期时间（小时）" -->
+        <result property="crpsaStatus" column="CRPSA_STATUS" jdbcType="NUMERIC"/><!-- "状态:1启用,0禁用" -->
+        <result property="crpsaCdate" column="CRPSA_CDATE" jdbcType="TIMESTAMP"/><!-- "创建时间" -->
+        <result property="crpsaUdate" column="CRPSA_UDATE" jdbcType="TIMESTAMP"/><!-- "修改时间" -->
+        <result property="crlngName" column="CRLNG_NAME" jdbcType="VARCHAR"/><!-- "教辅名称" -->
+        <result property="crpesName" column="CRPES_NAME" jdbcType="VARCHAR"/><!-- "试卷名" -->
+        <result property="crusrName" column="CRUSR_NAME" jdbcType="VARCHAR"/><!-- "学号" -->
+        <result property="crusrCode" column="CRUSR_CODE" jdbcType="VARCHAR"/><!-- "真实姓名" -->
+    </resultMap>
+    <sql id="corePapersAnswerAsProperty">
+				CRPSA_UNID AS crpsaUnid,
+				CRPSA_UUID AS crpsaUuid,
+						CRPSA_LENING AS crpsaLening,
+								CRPSA_PAPER AS crpsaPaper,
+								CRPSA_USER AS crpsaUser,
+								CRPSA_PAPER_SCORE AS crpsaPaperScore,
+								CRPSA_SCORE AS crpsaScore,
+								CRPSA_QUESTION AS crpsaQuestion,
+								CRPSA_EXPIRE AS crpsaExpire,
+								CRPSA_STATUS AS crpsaStatus,
+								CRPSA_CDATE AS crpsaCdate,
+								CRPSA_UDATE AS crpsaUdate,
+								CRLNG_NAME AS crlngName,
+								CRPES_NAME AS crpesName,
+								CRUSR_NAME AS crusrName,
+								CRUSR_CODE AS crusrCode
+					</sql>
+    <sql id="corePapersAnswerFieldIf">
+        <if test="crpsaUnid!=null">CRPSA_UNID,</if>
+        <if test="crpsaLening!=null">CRPSA_LENING,</if>
+        <if test="crpsaPaper!=null">CRPSA_PAPER,</if>
+        <if test="crpsaUser!=null">CRPSA_USER,</if>
+        <if test="crpsaPaperScore!=null">CRPSA_PAPER_SCORE,</if>
+        <if test="crpsaScore!=null">CRPSA_SCORE,</if>
+        <if test="crpsaQuestion!=null">CRPSA_QUESTION,</if>
+        <if test="crpsaExpire!=null">CRPSA_EXPIRE,</if>
+        <if test="crpsaStatus!=null">CRPSA_STATUS,</if>
+        <if test="crpsaCdate!=null">CRPSA_CDATE,</if>
+        <if test="crpsaUdate!=null">CRPSA_UDATE,</if>
+        <if test="crpsaUuid!=null">CRPSA_UUID</if>
+    </sql>
+    <sql id="corePapersAnswerProperty">
+        <if test="crpsaUnid!=null">#{crpsaUnid,jdbcType=NUMERIC},</if>
+        <if test="crpsaLening!=null">#{crpsaLening,jdbcType=VARCHAR},</if>
+        <if test="crpsaPaper!=null">#{crpsaPaper,jdbcType=VARCHAR},</if>
+        <if test="crpsaUser!=null">#{crpsaUser,jdbcType=VARCHAR},</if>
+        <if test="crpsaPaperScore!=null">#{crpsaPaperScore,jdbcType=NUMERIC},</if>
+        <if test="crpsaScore!=null">#{crpsaScore,jdbcType=NUMERIC},</if>
+        <if test="crpsaQuestion!=null">#{crpsaQuestion,jdbcType=VARCHAR},</if>
+        <if test="crpsaExpire!=null">#{crpsaExpire,jdbcType=VARCHAR},</if>
+        <if test="crpsaStatus!=null">#{crpsaStatus,jdbcType=NUMERIC},</if>
+        <if test="crpsaCdate!=null">#{crpsaCdate,jdbcType=TIMESTAMP},</if>
+        <if test="crpsaUdate!=null">#{crpsaUdate,jdbcType=TIMESTAMP},</if>
+        <if test="crpsaUuid!=null">#{crpsaUuid,jdbcType=VARCHAR}</if>
+    </sql>
+    <sql id="corePapersAnswerPropertyIf">
+        <if test="crpsaUnid!=null">CRPSA_UNID=#{crpsaUnid,jdbcType=NUMERIC},</if>
+        <if test="crpsaLening!=null">CRPSA_LENING=#{crpsaLening,jdbcType=VARCHAR},</if>
+        <if test="crpsaPaper!=null">CRPSA_PAPER=#{crpsaPaper,jdbcType=VARCHAR},</if>
+        <if test="crpsaUser!=null">CRPSA_USER=#{crpsaUser,jdbcType=VARCHAR},</if>
+        <if test="crpsaPaperScore!=null">CRPSA_PAPER_SCORE=#{crpsaPaperScore,jdbcType=NUMERIC},</if>
+        <if test="crpsaScore!=null">CRPSA_SCORE=#{crpsaScore,jdbcType=NUMERIC},</if>
+        <if test="crpsaQuestion!=null">CRPSA_QUESTION=#{crpsaQuestion,jdbcType=VARCHAR},</if>
+        <if test="crpsaExpire!=null">CRPSA_EXPIRE=#{crpsaExpire,jdbcType=VARCHAR},</if>
+        <if test="crpsaStatus!=null">CRPSA_STATUS=#{crpsaStatus,jdbcType=NUMERIC},</if>
+        <if test="crpsaCdate!=null">CRPSA_CDATE=#{crpsaCdate,jdbcType=TIMESTAMP},</if>
+        <if test="crpsaUdate!=null">CRPSA_UDATE=#{crpsaUdate,jdbcType=TIMESTAMP},</if>
+        <if test="crpsaUuid!=null">CRPSA_UUID=#{crpsaUuid,jdbcType=VARCHAR}</if>
+    </sql>
+    <insert id="insertCorePapersAnswer" parameterType="CorePapersAnswer" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO CORE_PAPERS_ANSWER(<include refid="corePapersAnswerFieldIf"/>) VALUES (<include
+            refid="corePapersAnswerProperty"/>)
+    </insert>
+    <select id="getCorePapersAnswer" resultMap="corePapersAnswerMapper" parameterType="CorePapersAnswer">
+        SELECT
+        <include refid="corePapersAnswerAsProperty"/>
+        FROM CORE_PAPERS_ANSWER
+        LEFT JOIN CORE_USER on CRUSR_UUID = CRPSA_USER
+        LEFT JOIN CORE_LENING on CRLNG_UUID = CRPSA_LENING
+        LEFT JOIN CORE_PAPERS on CRPES_UUID = CRPSA_PAPER
+        <where>CRPSA_STATUS=1 and CRPSA_UUID=#{crpsaUuid,jdbcType=VARCHAR}</where>
+    </select>
+    <update id="updateCorePapersAnswer" parameterType="CorePapersAnswer">
+        UPDATE CORE_PAPERS_ANSWER
+        <set>
+            <include refid="corePapersAnswerPropertyIf"/>
+        </set>
+        <where>CRPSA_UUID=#{crpsaUuid,jdbcType=VARCHAR}</where>
+    </update>
+    <!--  批量删除-->
+    <update id="deleteBatchCorePapersAnswerByIds" parameterType="HashMap">
+        update CORE_PAPERS_ANSWER set CRPSA_STATUS=0
+        <where>
+            <if test="list != null and list.size>0">
+                CRPSA_UUID in
+                <foreach item="item" index="id" collection="list" open="(" separator="," close=")">
+                    '${item}'
+                </foreach>
+            </if>
+        </where>
+    </update>
+    <!--  获取所有list-->
+    <select id="findCorePapersAnswerForLists" resultMap="corePapersAnswerMapper" parameterType="HashMap">
+        SELECT
+        <include refid="corePapersAnswerAsProperty"/>
+        FROM CORE_PAPERS_ANSWER
+        LEFT JOIN CORE_USER on CRUSR_UUID = CRPSA_USER
+        LEFT JOIN CORE_LENING on CRLNG_UUID = CRPSA_LENING
+        LEFT JOIN CORE_PAPERS on CRPES_UUID = CRPSA_PAPER
+        where CRPSA_STATUS=1
+        ORDER BY CRPSA_UDATE DESC
+    </select>
+    <!--  根据试卷和学生获取所有list-->
+    <select id="findCorePapersAnswerByPaperAndUser" resultMap="corePapersAnswerMapper" parameterType="HashMap">
+        SELECT <include refid="corePapersAnswerAsProperty" />
+        FROM CORE_PAPERS_ANSWER
+        LEFT JOIN CORE_USER on CRUSR_UUID = CRPSA_USER
+        LEFT JOIN CORE_LENING on CRLNG_UUID = CRPSA_LENING
+        LEFT JOIN CORE_PAPERS on CRPES_UUID = CRPSA_PAPER
+        <where>
+            CRPSA_STATUS=1
+            <if test="crpsaPaper!=null" > AND CRPSA_PAPER=#{crpsaPaper,jdbcType=VARCHAR} </if>
+            <if test="crpsaUser!=null" > AND CRPSA_USER=#{crpsaUser,jdbcType=VARCHAR} </if>
+        </where>
+        ORDER BY CRPSA_UDATE DESC
+    </select>
+    <!--  获取所有集合list-->
+    <select id="findCorePapersAnswerForListsByFilters" resultMap="corePapersAnswerMapper" parameterType="HashMap">
+        SELECT <include refid="corePapersAnswerAsProperty" />
+        FROM CORE_PAPERS_ANSWER
+        LEFT JOIN CORE_USER on CRUSR_UUID = CRPSA_USER
+        LEFT JOIN CORE_LENING on CRLNG_UUID = CRPSA_LENING
+        LEFT JOIN CORE_PAPERS on CRPES_UUID = CRPSA_PAPER
+        <where>
+            CRPSA_STATUS=1
+            <if test="papersList != null and papersList.size>0">
+                AND CRPSA_PAPER in
+                <foreach item="item" index="id" collection="papersList" open="(" separator="," close=")">
+                    '${item}'
+                </foreach>
+            </if>
+            <if test="userList != null and userList.size>0">
+                AND CRPSA_USER in
+                <foreach item="item" index="id" collection="userList" open="(" separator="," close=")">
+                    '${item}'
+                </foreach>
+            </if>
+        </where>
+        ORDER BY CRPSA_UDATE DESC
+    </select>
+    <!--  获取所有page-->
+    <select id="findCorePapersAnswerForPages" resultMap="corePapersAnswerMapper" parameterType="HashMap">
+        SELECT
+        <include refid="corePapersAnswerAsProperty"/>
+        FROM CORE_PAPERS_ANSWER
+        LEFT JOIN CORE_USER on CRUSR_UUID = CRPSA_USER
+        LEFT JOIN CORE_LENING on CRLNG_UUID = CRPSA_LENING
+        LEFT JOIN CORE_PAPERS on CRPES_UUID = CRPSA_PAPER
+        <where>
+            CRPSA_STATUS=1
+            <if test="crpsaLening!=null and crpsaLening!=''">
+                and CRPSA_LENING = #{crpsaLening,jdbcType=VARCHAR}
+            </if>
+            <if test="crpsaPaper!=null and crpsaPaper!=''">
+                and CRPSA_PAPER = #{crpsaPaper,jdbcType=VARCHAR}
+            </if>
+            <if test="crpsaUser!=null and crpsaUser!=''">
+                and CRPSA_USER = #{crpsaUser,jdbcType=VARCHAR}
+            </if>
+            <if test="crpsaPaperScore!=null">
+                and CRPSA_PAPER_SCORE=#{crpsaPaperScore,jdbcType=NUMERIC}
+            </if>
+            <if test="crpsaScore!=null">
+                and CRPSA_SCORE=#{crpsaScore,jdbcType=NUMERIC}
+            </if>
+            <if test="crpsaExpire!=null and crpsaExpire!=''">
+                and CRPSA_EXPIRE like concat('%',#{crpsaExpire,jdbcType=VARCHAR},'%')
+            </if>
+        </where>
+        ORDER BY CRPSA_UDATE DESC
+    </select>
+</mapper>

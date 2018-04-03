@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaoyu.lingdian.entity.CoreAccount">
+	<resultMap id="coreAccountMapper" type="CoreAccount">
+		<id column="CRACT_UNID" jdbcType="NUMERIC" property="cractUnid" /><!-- 标识UNID -->
+		<result column="CRACT_UUID" jdbcType="VARCHAR" property="cractUuid" /><!-- 标识UUID -->
+		<result column="CRACT_NAME" jdbcType="VARCHAR" property="cractName" /><!-- 帐户名称 -->
+		<result column="CRACT_PASSWORD" jdbcType="VARCHAR" property="cractPassword" /><!-- 登录密码 -->
+		<result column="CRACT_STATUS" jdbcType="NUMERIC" property="cractStatus" /><!-- 状态:1启用,0禁用 -->
+		<result column="CRACT_ROLES" jdbcType="VARCHAR" property="cractRoles" /><!-- 角色集合 -->
+		<result column="CRACT_CDATE" jdbcType="TIMESTAMP" property="cractCdate" /><!-- 创建日期 -->
+		<result column="CRACT_UDATE" jdbcType="TIMESTAMP" property="cractUdate" /><!-- 修改日期 -->
+		<result column="CRACT_TEL" jdbcType="VARCHAR" property="cractTel" /><!-- 联系方式 -->
+		<result column="CRACT_EMAIL" jdbcType="VARCHAR" property="cractEmail" /><!-- 邮箱 -->
+		<result column="CRACT_REMARKS" jdbcType="VARCHAR" property="cractRemarks" /><!-- 备注 -->
+	</resultMap>
+	<sql id="coreAccountAsProperty">
+		CRACT_UNID AS cractUnid,
+		CRACT_UUID AS cractUuid,
+		CRACT_NAME AS cractName,
+		CRACT_PASSWORD AS cractPassword,
+		CRACT_STATUS AS cractStatus,
+		CRACT_ROLES AS cractRoles,
+		CRACT_CDATE AS cractCdate,
+		CRACT_UDATE AS cractUdate,
+		CRACT_TEL AS cractTel,
+		CRACT_EMAIL AS cractEmail,
+		CRACT_REMARKS AS cractRemarks
+	</sql>
+	<sql id="coreAccountFieldIf">
+		<if test="cractUnid!=null" >CRACT_UNID,</if>
+		<if test="cractName!=null" >CRACT_NAME,</if>
+		<if test="cractPassword!=null" >CRACT_PASSWORD,</if>
+		<if test="cractStatus!=null" >CRACT_STATUS,</if>
+		<if test="cractRoles!=null" >CRACT_ROLES,</if>
+		<if test="cractCdate!=null" >CRACT_CDATE,</if>
+		<if test="cractUdate!=null" >CRACT_UDATE,</if>
+		<if test="cractTel!=null" >CRACT_TEL,</if>
+		<if test="cractEmail!=null" >CRACT_EMAIL,</if>
+		<if test="cractRemarks!=null" >CRACT_REMARKS,</if>
+		<if test="cractUuid!=null" >CRACT_UUID</if>
+	</sql>
+	<sql id="coreAccountProperty">
+		<if test="cractUnid!=null" >#{cractUnid,jdbcType=NUMERIC},</if>
+		<if test="cractName!=null" >#{cractName,jdbcType=VARCHAR},</if>
+		<if test="cractPassword!=null" >#{cractPassword,jdbcType=VARCHAR},</if>
+		<if test="cractStatus!=null" >#{cractStatus,jdbcType=NUMERIC},</if>
+		<if test="cractRoles!=null" >#{cractRoles,jdbcType=VARCHAR},</if>
+		<if test="cractCdate!=null" >#{cractCdate,jdbcType=TIMESTAMP},</if>
+		<if test="cractUdate!=null" >#{cractUdate,jdbcType=TIMESTAMP},</if>
+		<if test="cractTel!=null" >#{cractTel,jdbcType=VARCHAR},</if>
+		<if test="cractEmail!=null" >#{cractEmail,jdbcType=VARCHAR},</if>
+		<if test="cractRemarks!=null" >#{cractRemarks,jdbcType=VARCHAR},</if>
+		<if test="cractUuid!=null" >#{cractUuid,jdbcType=VARCHAR}</if>
+	</sql>
+	<sql id="coreAccountPropertyIf">
+		<if test="cractUnid!=null" >CRACT_UNID=#{cractUnid,jdbcType=NUMERIC},</if>
+		<if test="cractName!=null" >CRACT_NAME=#{cractName,jdbcType=VARCHAR},</if>
+		<if test="cractPassword!=null" >CRACT_PASSWORD=#{cractPassword,jdbcType=VARCHAR},</if>
+		<if test="cractStatus!=null" >CRACT_STATUS=#{cractStatus,jdbcType=NUMERIC},</if>
+		<if test="cractRoles!=null" >CRACT_ROLES=#{cractRoles,jdbcType=VARCHAR},</if>
+		<if test="cractCdate!=null" >CRACT_CDATE=#{cractCdate,jdbcType=TIMESTAMP},</if>
+		<if test="cractUdate!=null" >CRACT_UDATE=#{cractUdate,jdbcType=TIMESTAMP},</if>
+		<if test="cractTel!=null" >CRACT_TEL=#{cractTel,jdbcType=VARCHAR},</if>
+		<if test="cractEmail!=null" >CRACT_EMAIL=#{cractEmail,jdbcType=VARCHAR},</if>
+		<if test="cractRemarks!=null" >CRACT_REMARKS=#{cractRemarks,jdbcType=VARCHAR},</if>
+		<if test="cractUuid!=null" >CRACT_UUID=#{cractUuid,jdbcType=VARCHAR}</if>
+	</sql>
+	<insert id="insertCoreAccount" parameterType="CoreAccount" useGeneratedKeys="true" keyProperty="id" >
+		INSERT INTO CORE_ACCOUNT(<include refid="coreAccountFieldIf" />) VALUES (<include refid="coreAccountProperty" />)
+	</insert>
+	<delete id="deleteCoreAccount" parameterType="CoreAccount">
+		DELETE FROM CORE_ACCOUNT <where> CRACT_UUID=#{cractUuid,jdbcType=VARCHAR} </where>
+	</delete>
+	<select id="getCoreAccount" resultMap="coreAccountMapper" parameterType="CoreAccount">
+		SELECT <include refid="coreAccountAsProperty" /> FROM CORE_ACCOUNT 
+		<where> 
+			CRACT_STATUS = 1 
+			<if test="cractUuid!=null and cractUuid!=''" > AND CRACT_UUID=#{cractUuid,jdbcType=VARCHAR}</if> 
+			<if test="cractName!=null and cractName!=''" > AND CRACT_NAME=#{cractName,jdbcType=VARCHAR}</if> 
+		</where>
+	</select>
+	<update id="updateCoreAccount" parameterType="CoreAccount">
+		UPDATE CORE_ACCOUNT<set><include refid="coreAccountPropertyIf" /></set> <where> CRACT_UUID=#{cractUuid,jdbcType=VARCHAR} </where>
+	</update>
+<!-- 定制内容开始 --><!-- 定制内容结束 -->
+	<select id="getCoreAccounts" resultMap="coreAccountMapper">
+		SELECT <include refid="coreAccountAsProperty" /> FROM CORE_ACCOUNT <where> 1=1 </where> order by CRACT_UNID desc
+	</select>
+	<delete id="deleteCoreAccountByCnd" parameterType="HashMap">
+		DELETE FROM CORE_ACCOUNT
+		<where>
+			<if test="list != null and list.size>0">
+				CRACT_UUID in 
+				<foreach item="item" index="id" collection="list" open="(" separator="," close=")">
+					'${item}'
+				</foreach>
+			</if>
+		</where>
+	</delete>
+</mapper>

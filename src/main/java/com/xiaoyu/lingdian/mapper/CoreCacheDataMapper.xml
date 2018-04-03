@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaoyu.lingdian.entity.CoreCacheData">
+	<resultMap id="coreCacheDataMapper" type="CoreCacheData">
+		<id column="CRCDA_UNID" jdbcType="NUMERIC" property="crcdaUnid" /><!-- 标识UNID -->
+		<result column="CRCDA_UUID" jdbcType="VARCHAR" property="crcdaUuid" /><!-- 标识UUID -->
+		<result column="CRCDA_NAME" jdbcType="VARCHAR" property="crcdaName" /><!-- 缓存数据名称 -->
+		<result column="CRCDA_VALUE" jdbcType="VARCHAR" property="crcdaValue" /><!-- 缓存数据值 -->
+	</resultMap>
+	<sql id="coreCacheDataAsProperty">
+		CRCDA_UNID AS crcdaUnid,
+		CRCDA_UUID AS crcdaUuid,
+		CRCDA_NAME AS crcdaName,
+		CRCDA_VALUE AS crcdaValue
+	</sql>
+	<sql id="coreCacheDataFieldIf">
+		<if test="crcdaUnid!=null" >CRCDA_UNID,</if>
+		<if test="crcdaName!=null" >CRCDA_NAME,</if>
+		<if test="crcdaValue!=null" >CRCDA_VALUE,</if>
+		<if test="crcdaUuid!=null" >CRCDA_UUID</if>
+	</sql>
+	<sql id="coreCacheDataProperty">
+		<if test="crcdaUnid!=null" >#{crcdaUnid,jdbcType=NUMERIC},</if>
+		<if test="crcdaName!=null" >#{crcdaName,jdbcType=VARCHAR},</if>
+		<if test="crcdaValue!=null" >#{crcdaValue,jdbcType=VARCHAR},</if>
+		<if test="crcdaUuid!=null" >#{crcdaUuid,jdbcType=VARCHAR}</if>
+	</sql>
+	<sql id="coreCacheDataPropertyIf">
+		<if test="crcdaUnid!=null" >CRCDA_UNID=#{crcdaUnid,jdbcType=NUMERIC},</if>
+		<if test="crcdaName!=null" >CRCDA_NAME=#{crcdaName,jdbcType=VARCHAR},</if>
+		<if test="crcdaValue!=null" >CRCDA_VALUE=#{crcdaValue,jdbcType=VARCHAR},</if>
+		<if test="crcdaUuid!=null" >CRCDA_UUID=#{crcdaUuid,jdbcType=VARCHAR}</if>
+	</sql>
+	<insert id="insertCoreCacheData" parameterType="CoreCacheData" useGeneratedKeys="true" keyProperty="id" >
+		INSERT INTO CORE_CACHE_DATA(<include refid="coreCacheDataFieldIf" />) VALUES (<include refid="coreCacheDataProperty" />)
+	</insert>
+	<delete id="deleteCoreCacheData" parameterType="CoreCacheData">
+		DELETE FROM CORE_CACHE_DATA <where> CRCDA_UUID=#{crcdaUuid,jdbcType=VARCHAR} </where>
+	</delete>
+	<select id="getCoreCacheData" resultMap="coreCacheDataMapper" parameterType="CoreCacheData">
+		SELECT <include refid="coreCacheDataAsProperty" /> FROM CORE_CACHE_DATA <where> CRCDA_UUID=#{crcdaUuid,jdbcType=VARCHAR} </where>
+	</select>
+	<update id="updateCoreCacheData" parameterType="CoreCacheData">
+		UPDATE CORE_CACHE_DATA<set><include refid="coreCacheDataPropertyIf" /></set> <where> CRCDA_UUID=#{crcdaUuid,jdbcType=VARCHAR} </where>
+	</update>
+	<!--  批量删除-->
+	<delete id="deleteBatchCoreCacheDataByIds" parameterType="HashMap">
+		DELETE FROM CORE_CACHE_DATA
+		<where>
+			<if test="list != null and list.size>0">
+				CRCDA_UUID in
+				<foreach item="item" index="id" collection="list" open="(" separator="," close=")">
+					'${item}'
+				</foreach>
+			</if>
+		</where>
+	</delete>
+	<!--  获取所有list-->
+	<select id="findCoreCacheDataForLists" resultMap="coreCacheDataMapper" parameterType="HashMap">
+		SELECT <include refid="coreCacheDataAsProperty" /> 
+		FROM CORE_CACHE_DATA
+	</select>
+	<!--  获取所有page-->
+	<select id="findCoreCacheDataForPages" resultMap="coreCacheDataMapper" parameterType="HashMap">
+		SELECT <include refid="coreCacheDataAsProperty" /> 
+		FROM CORE_CACHE_DATA
+		<where>
+			1=1
+		</where>
+	</select>
+<!-- 定制内容开始 --><!-- 定制内容结束 -->
+
+</mapper>

@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaoyu.lingdian.entity.CorePapers">
+    <resultMap id="corePapersMapper" type="CorePapers">
+        <id property="crpesUnid" column="CRPES_UNID" jdbcType="NUMERIC"/><!-- "标识UNID" -->
+        <result property="crpesUuid" column="CRPES_UUID" jdbcType="VARCHAR"/><!-- "标识UUID" -->
+        <result property="crpesLening" column="CRPES_LENING" jdbcType="VARCHAR"/><!-- "所属教辅" -->
+        <result property="crpesName" column="CRPES_NAME" jdbcType="VARCHAR"/><!-- "试卷名" -->
+        <result property="crpesExpire" column="CRPES_EXPIRE" jdbcType="VARCHAR"/><!-- "查看视频过期时间（小时）" -->
+        <result property="crpesQuestion" column="CRPES_QUESTION" jdbcType="VARCHAR"/><!-- "题目内容" -->
+        <result property="crpesScore" column="CRPES_SCORE" jdbcType="NUMERIC"/><!-- "总分（各题目分数之和）" -->
+        <result property="crpesCdate" column="CRPES_CDATE" jdbcType="TIMESTAMP"/><!-- "创建时间" -->
+        <result property="crpesUdate" column="CRPES_UDATE" jdbcType="TIMESTAMP"/><!-- "修改时间" -->
+        <result property="crpesStatus" column="CRPES_STATUS" jdbcType="NUMERIC"/><!-- "状态:1启用,0禁用" -->
+        <result property="crpesOpen" column="CRPES_OPEN" jdbcType="NUMERIC"/><!-- "开放状态:1已开放,0未开放" -->
+        <result property="crlngName" column="CRLNG_NAME" jdbcType="VARCHAR"/><!-- "教辅名称" -->
+    </resultMap>
+    <sql id="corePapersAsProperty">
+				CRPES_UNID AS crpesUnid,
+				CRPES_UUID AS crpesUuid,
+						CRPES_LENING AS crpesLening,
+								CRPES_NAME AS crpesName,
+								CRPES_EXPIRE AS crpesExpire,
+								CRPES_QUESTION AS crpesQuestion,
+								CRPES_SCORE AS crpesScore,
+								CRPES_CDATE AS crpesCdate,
+								CRPES_UDATE AS crpesUdate,
+								CRPES_STATUS AS crpesStatus,
+								CRPES_OPEN AS crpesOpen,
+								CRLNG_NAME AS crlngName
+					</sql>
+    <sql id="corePapersFieldIf">
+        <if test="crpesUnid!=null">CRPES_UNID,</if>
+        <if test="crpesLening!=null">CRPES_LENING,</if>
+        <if test="crpesName!=null">CRPES_NAME,</if>
+        <if test="crpesExpire!=null">CRPES_EXPIRE,</if>
+        <if test="crpesQuestion!=null">CRPES_QUESTION,</if>
+        <if test="crpesScore!=null">CRPES_SCORE,</if>
+        <if test="crpesCdate!=null">CRPES_CDATE,</if>
+        <if test="crpesUdate!=null">CRPES_UDATE,</if>
+        <if test="crpesStatus!=null">CRPES_STATUS,</if>
+        <if test="crpesOpen!=null">CRPES_OPEN,</if>
+        <if test="crpesUuid!=null">CRPES_UUID</if>
+    </sql>
+    <sql id="corePapersProperty">
+        <if test="crpesUnid!=null">#{crpesUnid,jdbcType=NUMERIC},</if>
+        <if test="crpesLening!=null">#{crpesLening,jdbcType=VARCHAR},</if>
+        <if test="crpesName!=null">#{crpesName,jdbcType=VARCHAR},</if>
+        <if test="crpesExpire!=null">#{crpesExpire,jdbcType=VARCHAR},</if>
+        <if test="crpesQuestion!=null">#{crpesQuestion,jdbcType=VARCHAR},</if>
+        <if test="crpesScore!=null">#{crpesScore,jdbcType=NUMERIC},</if>
+        <if test="crpesCdate!=null">#{crpesCdate,jdbcType=TIMESTAMP},</if>
+        <if test="crpesUdate!=null">#{crpesUdate,jdbcType=TIMESTAMP},</if>
+        <if test="crpesStatus!=null">#{crpesStatus,jdbcType=NUMERIC},</if>
+        <if test="crpesOpen!=null">#{crpesOpen,jdbcType=NUMERIC},</if>
+        <if test="crpesUuid!=null">#{crpesUuid,jdbcType=VARCHAR}</if>
+    </sql>
+    <sql id="corePapersPropertyIf">
+        <if test="crpesUnid!=null">CRPES_UNID=#{crpesUnid,jdbcType=NUMERIC},</if>
+        <if test="crpesLening!=null">CRPES_LENING=#{crpesLening,jdbcType=VARCHAR},</if>
+        <if test="crpesName!=null">CRPES_NAME=#{crpesName,jdbcType=VARCHAR},</if>
+        <if test="crpesExpire!=null">CRPES_EXPIRE=#{crpesExpire,jdbcType=VARCHAR},</if>
+        <if test="crpesQuestion!=null">CRPES_QUESTION=#{crpesQuestion,jdbcType=VARCHAR},</if>
+        <if test="crpesScore!=null">CRPES_SCORE=#{crpesScore,jdbcType=NUMERIC},</if>
+        <if test="crpesCdate!=null">CRPES_CDATE=#{crpesCdate,jdbcType=TIMESTAMP},</if>
+        <if test="crpesUdate!=null">CRPES_UDATE=#{crpesUdate,jdbcType=TIMESTAMP},</if>
+        <if test="crpesStatus!=null">CRPES_STATUS=#{crpesStatus,jdbcType=NUMERIC},</if>
+        <if test="crpesOpen!=null">CRPES_OPEN=#{crpesOpen,jdbcType=NUMERIC},</if>
+        <if test="crpesUuid!=null">CRPES_UUID=#{crpesUuid,jdbcType=VARCHAR}</if>
+    </sql>
+    <insert id="insertCorePapers" parameterType="CorePapers" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO CORE_PAPERS(<include refid="corePapersFieldIf"/>) VALUES (<include refid="corePapersProperty"/>)
+    </insert>
+    <select id="getCorePapers" resultMap="corePapersMapper" parameterType="CorePapers">
+        SELECT
+        <include refid="corePapersAsProperty"/>
+        FROM CORE_PAPERS
+        LEFT JOIN CORE_LENING on CRLNG_UUID = CRPES_LENING
+        <where>CRPES_STATUS=1 and CRPES_UUID=#{crpesUuid,jdbcType=VARCHAR}</where>
+    </select>
+    <update id="updateCorePapers" parameterType="CorePapers">
+        UPDATE CORE_PAPERS
+        <set>
+            <include refid="corePapersPropertyIf"/>
+        </set>
+        <where>CRPES_UUID=#{crpesUuid,jdbcType=VARCHAR}</where>
+    </update>
+    <!--  批量删除-->
+    <update id="deleteBatchCorePapersByIds" parameterType="HashMap">
+        update CORE_PAPERS set CRPES_STATUS=0
+        <where>
+            <if test="list != null and list.size>0">
+                CRPES_UUID in
+                <foreach item="item" index="id" collection="list" open="(" separator="," close=")">
+                    '${item}'
+                </foreach>
+            </if>
+        </where>
+    </update>
+    <!--  获取所有list-->
+    <select id="findCorePapersForLists" resultMap="corePapersMapper" parameterType="HashMap">
+        SELECT
+        <include refid="corePapersAsProperty"/>
+        FROM CORE_PAPERS
+        LEFT JOIN CORE_LENING on CRLNG_UUID = CRPES_LENING
+        <where>
+            CRPES_STATUS=1
+            <if test="crpesLening!=null and crpesLening!=''">
+                and CRPES_LENING = #{crpesLening,jdbcType=VARCHAR}
+            </if>
+        </where>
+        ORDER BY CRPES_UDATE DESC
+    </select>
+    <!--  获取所有page-->
+    <select id="findCorePapersForPages" resultMap="corePapersMapper" parameterType="HashMap">
+        SELECT
+        <include refid="corePapersAsProperty"/>
+        FROM CORE_PAPERS
+        LEFT JOIN CORE_LENING on CRLNG_UUID = CRPES_LENING
+        <where>
+            CRPES_STATUS=1
+            <if test="crpesLening!=null and crpesLening!=''">
+                and CRPES_LENING = #{crpesLening,jdbcType=VARCHAR}
+            </if>
+            <if test="crpesName!=null and crpesName!=''">
+                and CRPES_NAME like concat('%',#{crpesName,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="crpesScore!=null">
+                and CRPES_SCORE=#{crpesScore,jdbcType=NUMERIC}
+            </if>
+        </where>
+        ORDER BY CRPES_UDATE DESC
+    </select>
+</mapper>

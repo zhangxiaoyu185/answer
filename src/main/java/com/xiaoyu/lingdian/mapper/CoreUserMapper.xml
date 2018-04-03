@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaoyu.lingdian.entity.CoreUser">
+    <resultMap id="coreUserMapper" type="CoreUser">
+        <id property="crusrUnid" column="CRUSR_UNID" jdbcType="NUMERIC"/><!-- "标识UNID" -->
+        <result property="crusrUuid" column="CRUSR_UUID" jdbcType="VARCHAR"/><!-- "标识UUID" -->
+        <result property="crusrName" column="CRUSR_NAME" jdbcType="VARCHAR"/><!-- "学号" -->
+        <result property="crusrCode" column="CRUSR_CODE" jdbcType="VARCHAR"/><!-- "真实姓名" -->
+        <result property="crusrPassword" column="CRUSR_PASSWORD" jdbcType="VARCHAR"/><!-- "登录密码" -->
+        <result property="crusrEmail" column="CRUSR_EMAIL" jdbcType="VARCHAR"/><!-- "电子邮件" -->
+        <result property="crusrMobile" column="CRUSR_MOBILE" jdbcType="VARCHAR"/><!-- "手机号码" -->
+        <result property="crusrType" column="CRUSR_TYPE" jdbcType="NUMERIC"/><!-- "会员等级" -->
+        <result property="crusrStatus" column="CRUSR_STATUS" jdbcType="NUMERIC"/><!-- "状态:1启用,0禁用" -->
+        <result property="crusrCdate" column="CRUSR_CDATE" jdbcType="TIMESTAMP"/><!-- "创建日期" -->
+        <result property="crusrUdate" column="CRUSR_UDATE" jdbcType="TIMESTAMP"/><!-- "修改日期" -->
+        <result property="crusrBirthday" column="CRUSR_BIRTHDAY" jdbcType="VARCHAR"/><!-- "生日" -->
+        <result property="crusrGender" column="CRUSR_GENDER" jdbcType="NUMERIC"/><!-- "性别:1男,0女,2其它" -->
+        <result property="crusrQq" column="CRUSR_QQ" jdbcType="VARCHAR"/><!-- "QQ" -->
+        <result property="crusrAddress" column="CRUSR_ADDRESS" jdbcType="VARCHAR"/><!-- "地址" -->
+        <result property="crusrRemarks" column="CRUSR_REMARKS" jdbcType="VARCHAR"/><!-- "备注" -->
+        <result property="crusrClass" column="CRUSR_CLASS" jdbcType="VARCHAR"/><!-- "所属班级" -->
+        <result property="crusrSchool" column="CRUSR_SCHOOL" jdbcType="VARCHAR"/><!-- "所属学校" -->
+    </resultMap>
+    <sql id="coreUserAsProperty">
+				CRUSR_UNID AS crusrUnid,
+				CRUSR_UUID AS crusrUuid,
+						CRUSR_NAME AS crusrName,
+								CRUSR_CODE AS crusrCode,
+								CRUSR_PASSWORD AS crusrPassword,
+								CRUSR_EMAIL AS crusrEmail,
+								CRUSR_MOBILE AS crusrMobile,
+								CRUSR_TYPE AS crusrType,
+								CRUSR_STATUS AS crusrStatus,
+								CRUSR_CDATE AS crusrCdate,
+								CRUSR_UDATE AS crusrUdate,
+								CRUSR_BIRTHDAY AS crusrBirthday,
+								CRUSR_GENDER AS crusrGender,
+								CRUSR_QQ AS crusrQq,
+								CRUSR_ADDRESS AS crusrAddress,
+								CRUSR_REMARKS AS crusrRemarks,
+								CRUSR_CLASS AS crusrClass,
+								CRUSR_SCHOOL AS crusrSchool
+					</sql>
+    <sql id="coreUserFieldIf">
+        <if test="crusrUnid!=null">CRUSR_UNID,</if>
+        <if test="crusrName!=null">CRUSR_NAME,</if>
+        <if test="crusrCode!=null">CRUSR_CODE,</if>
+        <if test="crusrPassword!=null">CRUSR_PASSWORD,</if>
+        <if test="crusrEmail!=null">CRUSR_EMAIL,</if>
+        <if test="crusrMobile!=null">CRUSR_MOBILE,</if>
+        <if test="crusrType!=null">CRUSR_TYPE,</if>
+        <if test="crusrStatus!=null">CRUSR_STATUS,</if>
+        <if test="crusrCdate!=null">CRUSR_CDATE,</if>
+        <if test="crusrUdate!=null">CRUSR_UDATE,</if>
+        <if test="crusrBirthday!=null">CRUSR_BIRTHDAY,</if>
+        <if test="crusrGender!=null">CRUSR_GENDER,</if>
+        <if test="crusrQq!=null">CRUSR_QQ,</if>
+        <if test="crusrAddress!=null">CRUSR_ADDRESS,</if>
+        <if test="crusrRemarks!=null">CRUSR_REMARKS,</if>
+        <if test="crusrClass!=null">CRUSR_CLASS,</if>
+        <if test="crusrSchool!=null">CRUSR_SCHOOL,</if>
+        <if test="crusrUuid!=null">CRUSR_UUID</if>
+    </sql>
+    <sql id="coreUserProperty">
+        <if test="crusrUnid!=null">#{crusrUnid,jdbcType=NUMERIC},</if>
+        <if test="crusrName!=null">#{crusrName,jdbcType=VARCHAR},</if>
+        <if test="crusrCode!=null">#{crusrCode,jdbcType=VARCHAR},</if>
+        <if test="crusrPassword!=null">#{crusrPassword,jdbcType=VARCHAR},</if>
+        <if test="crusrEmail!=null">#{crusrEmail,jdbcType=VARCHAR},</if>
+        <if test="crusrMobile!=null">#{crusrMobile,jdbcType=VARCHAR},</if>
+        <if test="crusrType!=null">#{crusrType,jdbcType=NUMERIC},</if>
+        <if test="crusrStatus!=null">#{crusrStatus,jdbcType=NUMERIC},</if>
+        <if test="crusrCdate!=null">#{crusrCdate,jdbcType=TIMESTAMP},</if>
+        <if test="crusrUdate!=null">#{crusrUdate,jdbcType=TIMESTAMP},</if>
+        <if test="crusrBirthday!=null">#{crusrBirthday,jdbcType=VARCHAR},</if>
+        <if test="crusrGender!=null">#{crusrGender,jdbcType=NUMERIC},</if>
+        <if test="crusrQq!=null">#{crusrQq,jdbcType=VARCHAR},</if>
+        <if test="crusrAddress!=null">#{crusrAddress,jdbcType=VARCHAR},</if>
+        <if test="crusrRemarks!=null">#{crusrRemarks,jdbcType=VARCHAR},</if>
+        <if test="crusrClass!=null">#{crusrClass,jdbcType=VARCHAR},</if>
+        <if test="crusrSchool!=null">#{crusrSchool,jdbcType=VARCHAR},</if>
+        <if test="crusrUuid!=null">#{crusrUuid,jdbcType=VARCHAR}</if>
+    </sql>
+    <sql id="coreUserPropertyIf">
+        <if test="crusrUnid!=null">CRUSR_UNID=#{crusrUnid,jdbcType=NUMERIC},</if>
+        <if test="crusrName!=null">CRUSR_NAME=#{crusrName,jdbcType=VARCHAR},</if>
+        <if test="crusrCode!=null">CRUSR_CODE=#{crusrCode,jdbcType=VARCHAR},</if>
+        <if test="crusrPassword!=null">CRUSR_PASSWORD=#{crusrPassword,jdbcType=VARCHAR},</if>
+        <if test="crusrEmail!=null">CRUSR_EMAIL=#{crusrEmail,jdbcType=VARCHAR},</if>
+        <if test="crusrMobile!=null">CRUSR_MOBILE=#{crusrMobile,jdbcType=VARCHAR},</if>
+        <if test="crusrType!=null">CRUSR_TYPE=#{crusrType,jdbcType=NUMERIC},</if>
+        <if test="crusrStatus!=null">CRUSR_STATUS=#{crusrStatus,jdbcType=NUMERIC},</if>
+        <if test="crusrCdate!=null">CRUSR_CDATE=#{crusrCdate,jdbcType=TIMESTAMP},</if>
+        <if test="crusrUdate!=null">CRUSR_UDATE=#{crusrUdate,jdbcType=TIMESTAMP},</if>
+        <if test="crusrBirthday!=null">CRUSR_BIRTHDAY=#{crusrBirthday,jdbcType=VARCHAR},</if>
+        <if test="crusrGender!=null">CRUSR_GENDER=#{crusrGender,jdbcType=NUMERIC},</if>
+        <if test="crusrQq!=null">CRUSR_QQ=#{crusrQq,jdbcType=VARCHAR},</if>
+        <if test="crusrAddress!=null">CRUSR_ADDRESS=#{crusrAddress,jdbcType=VARCHAR},</if>
+        <if test="crusrRemarks!=null">CRUSR_REMARKS=#{crusrRemarks,jdbcType=VARCHAR},</if>
+        <if test="crusrClass!=null">CRUSR_CLASS=#{crusrClass,jdbcType=VARCHAR},</if>
+        <if test="crusrSchool!=null">CRUSR_SCHOOL=#{crusrSchool,jdbcType=VARCHAR},</if>
+        <if test="crusrUuid!=null">CRUSR_UUID=#{crusrUuid,jdbcType=VARCHAR}</if>
+    </sql>
+    <insert id="insertCoreUser" parameterType="CoreUser" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO CORE_USER(<include refid="coreUserFieldIf"/>) VALUES (<include refid="coreUserProperty"/>)
+    </insert>
+    <select id="getCoreUser" resultMap="coreUserMapper" parameterType="CoreUser">
+        SELECT
+        <include refid="coreUserAsProperty"/>
+        FROM CORE_USER
+        <where>CRUSR_STATUS = 1 and CRUSR_UUID=#{crusrUuid,jdbcType=VARCHAR}</where>
+    </select>
+    <select id="getMaxUnidByUser" resultType="Integer">
+        SELECT max(CRUSR_UNID) FROM CORE_USER
+    </select>
+    <update id="updateCoreUser" parameterType="CoreUser">
+        UPDATE CORE_USER
+        <set>
+            <include refid="coreUserPropertyIf"/>
+        </set>
+        <where>CRUSR_UUID=#{crusrUuid,jdbcType=VARCHAR}</where>
+    </update>
+    <!--  批量删除-->
+    <update id="deleteBatchCoreUserByIds" parameterType="HashMap">
+        UPDATE CORE_USER set CRUSR_STATUS = 0
+        <where>
+            <if test="list != null and list.size>0">
+                CRUSR_UUID in
+                <foreach item="item" index="id" collection="list" open="(" separator="," close=")">
+                    '${item}'
+                </foreach>
+            </if>
+        </where>
+    </update>
+    <!--  获取所有list-->
+    <select id="findCoreUserForLists" resultMap="coreUserMapper" parameterType="HashMap">
+        SELECT
+        <include refid="coreUserAsProperty"/>
+        FROM CORE_USER
+        WHERE CRUSR_STATUS = 1
+        ORDER BY CRUSR_UDATE DESC
+    </select>
+    <!--  获取所有page-->
+    <select id="findCoreUserForPages" resultMap="coreUserMapper" parameterType="HashMap">
+        SELECT
+        <include refid="coreUserAsProperty"/>
+        FROM CORE_USER
+        LEFT JOIN CORE_LENING_USER on CRLUR_USER = CRUSR_UUID
+        <where>
+            CRUSR_STATUS=1
+            <if test="lening!=null and lening!=''">
+              and CRLUR_LENING=#{lening,jdbcType=VARCHAR}
+            </if>
+            <if test="crusrName!=null and crusrName!=''">
+                and CRUSR_NAME like concat('%',#{crusrName,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="crusrCode!=null and crusrCode!=''">
+                and CRUSR_CODE like concat('%',#{crusrCode,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="crusrMobile!=null and crusrMobile!=''">
+                and CRUSR_MOBILE like concat('%',#{crusrMobile,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="crusrRemarks!=null and crusrRemarks!=''">
+                and CRUSR_REMARKS like concat('%',#{crusrRemarks,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="crusrClass!=null and crusrClass!=''">
+                and CRUSR_CLASS like concat('%',#{crusrClass,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="crusrSchool!=null and crusrSchool!=''">
+                and CRUSR_SCHOOL like concat('%',#{crusrSchool,jdbcType=VARCHAR},'%')
+            </if>
+        </where>
+        group by CRUSR_UUID
+        ORDER BY CRUSR_UDATE DESC
+    </select>
+    <select id="getCoreUserByName" resultMap="coreUserMapper" parameterType="CoreUser">
+        SELECT <include refid="coreUserAsProperty" />
+        FROM CORE_USER
+        <where>
+            CRUSR_NAME=#{crusrName,jdbcType=VARCHAR} and CRUSR_STATUS = 1
+        </where>
+    </select>
+    <select id="loginByNameOrMobile" resultMap="coreUserMapper" parameterType="CoreUser">
+        SELECT <include refid="coreUserAsProperty" />
+        FROM CORE_USER
+        <where>
+            (CRUSR_NAME=#{crusrName,jdbcType=VARCHAR} or CRUSR_MOBILE = #{crusrMobile,jdbcType=VARCHAR}) and CRUSR_STATUS = 1
+        </where>
+    </select>
+    <!--  教辅下的所有学生-->
+    <select id="findCoreUserForListsByLening" resultMap="coreUserMapper" parameterType="HashMap">
+        SELECT
+        <include refid="coreUserAsProperty"/>
+        FROM CORE_USER
+        LEFT JOIN CORE_LENING_USER on CRLUR_USER = CRUSR_UUID
+        WHERE CRUSR_STATUS = 1 and CRLUR_LENING=#{lening,jdbcType=VARCHAR}
+        ORDER BY CRUSR_UDATE DESC
+    </select>
+</mapper>

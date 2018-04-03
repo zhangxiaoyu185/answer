@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaoyu.lingdian.entity.CoreSchool">
+    <resultMap id="coreSchoolMapper" type="CoreSchool">
+        <id property="crsclUnid" column="CRSCL_UNID" jdbcType="NUMERIC"/><!-- "标识UNID" -->
+        <result property="crsclUuid" column="CRSCL_UUID" jdbcType="VARCHAR"/><!-- "标识UUID" -->
+        <result property="crsclName" column="CRSCL_NAME" jdbcType="VARCHAR"/><!-- "学校名称" -->
+    </resultMap>
+    <sql id="coreSchoolAsProperty">
+				CRSCL_UNID AS crsclUnid,
+				CRSCL_UUID AS crsclUuid,
+						CRSCL_NAME AS crsclName
+					</sql>
+    <sql id="coreSchoolFieldIf">
+        <if test="crsclUnid!=null">CRSCL_UNID,</if>
+        <if test="crsclName!=null">CRSCL_NAME,</if>
+        <if test="crsclUuid!=null">CRSCL_UUID</if>
+    </sql>
+    <sql id="coreSchoolProperty">
+        <if test="crsclUnid!=null">#{crsclUnid,jdbcType=NUMERIC},</if>
+        <if test="crsclName!=null">#{crsclName,jdbcType=VARCHAR},</if>
+        <if test="crsclUuid!=null">#{crsclUuid,jdbcType=VARCHAR}</if>
+    </sql>
+    <sql id="coreSchoolPropertyIf">
+        <if test="crsclUnid!=null">CRSCL_UNID=#{crsclUnid,jdbcType=NUMERIC},</if>
+        <if test="crsclName!=null">CRSCL_NAME=#{crsclName,jdbcType=VARCHAR},</if>
+        <if test="crsclUuid!=null">CRSCL_UUID=#{crsclUuid,jdbcType=VARCHAR}</if>
+    </sql>
+    <insert id="insertCoreSchool" parameterType="CoreSchool" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO CORE_SCHOOL(<include refid="coreSchoolFieldIf"/>) VALUES (<include refid="coreSchoolProperty"/>)
+    </insert>
+    <delete id="deleteCoreSchool" parameterType="CoreSchool">
+        DELETE FROM CORE_SCHOOL
+        <where>CRSCL_UUID=#{crsclUuid,jdbcType=VARCHAR}</where>
+    </delete>
+    <select id="getCoreSchool" resultMap="coreSchoolMapper" parameterType="CoreSchool">
+        SELECT
+        <include refid="coreSchoolAsProperty"/>
+        FROM CORE_SCHOOL
+        <where>CRSCL_UUID=#{crsclUuid,jdbcType=VARCHAR}</where>
+    </select>
+    <update id="updateCoreSchool" parameterType="CoreSchool">
+        UPDATE CORE_SCHOOL
+        <set>
+            <include refid="coreSchoolPropertyIf"/>
+        </set>
+        <where>CRSCL_UUID=#{crsclUuid,jdbcType=VARCHAR}</where>
+    </update>
+    <!--  批量删除-->
+    <delete id="deleteBatchCoreSchoolByIds" parameterType="HashMap">
+        DELETE FROM CORE_SCHOOL
+        <where>
+            <if test="list != null and list.size>0">
+                CRSCL_UUID in
+                <foreach item="item" index="id" collection="list" open="(" separator="," close=")">
+                    '${item}'
+                </foreach>
+            </if>
+        </where>
+    </delete>
+    <!--  获取所有list-->
+    <select id="findCoreSchoolForLists" resultMap="coreSchoolMapper" parameterType="HashMap">
+        SELECT
+        <include refid="coreSchoolAsProperty"/>
+        FROM CORE_SCHOOL
+    </select>
+    <!--  获取所有page-->
+    <select id="findCoreSchoolForPages" resultMap="coreSchoolMapper" parameterType="HashMap">
+        SELECT
+        <include refid="coreSchoolAsProperty"/>
+        FROM CORE_SCHOOL
+        <where>
+            <if test="crsclName!=null and crsclName!=''">
+                and CRSCL_NAME like concat('%',#{crsclName,jdbcType=VARCHAR},'%')
+            </if>
+        </where>
+    </select>
+</mapper>

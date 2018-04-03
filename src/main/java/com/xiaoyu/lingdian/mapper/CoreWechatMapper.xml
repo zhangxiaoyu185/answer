@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaoyu.lingdian.entity.CoreWechat">
+	<resultMap id="coreWechatMapper" type="CoreWechat">
+		<id column="CRWCT_UNID" jdbcType="NUMERIC" property="crwctUnid" /><!-- 标识UNID -->
+		<result column="CRWCT_UUID" jdbcType="VARCHAR" property="crwctUuid" /><!-- 标识UUID -->
+		<result column="CRWCT_NAME" jdbcType="VARCHAR" property="crwctName" /><!-- 公众号名称 -->
+		<result column="CRWCT_APPID" jdbcType="VARCHAR" property="crwctAppid" /><!-- appid -->
+		<result column="CRWCT_APPSECRET" jdbcType="VARCHAR" property="crwctAppsecret" /><!-- appsecret -->
+		<result column="CRWCT_ACCESS_TOKEN" jdbcType="VARCHAR" property="crwctAccessToken" /><!-- accessToken(全局) -->
+		<result column="CRWCT_ACCESS_TIME" jdbcType="TIMESTAMP" property="crwctAccessTime" /><!-- accessTokenLastTime -->
+		<result column="CRWCT_JSAPI_TICKET" jdbcType="VARCHAR" property="crwctJsapiTicket" /><!-- jsapiTicket(js-sdk) -->
+		<result column="CRWCT_JSAPI_TIME" jdbcType="TIMESTAMP" property="crwctJsapiTime" /><!-- jsapiTicketLastTime -->
+		<result column="CRWCT_PARTNER" jdbcType="VARCHAR" property="crwctPartner" /><!-- 商户号partner/mch_id -->
+		<result column="CRWCT_PARTNERKEY" jdbcType="VARCHAR" property="crwctPartnerkey" /><!-- 商户密钥partnerkey -->
+		<result column="CRWCT_NOTIFYURL" jdbcType="VARCHAR" property="crwctNotifyurl" /><!-- 回调URLnotifyurl -->
+		<result column="CRWCT_STATUS" jdbcType="NUMERIC" property="crwctStatus" /><!-- 状态:1启用,0禁用 -->
+		<result column="CRWCT_CDATE" jdbcType="TIMESTAMP" property="crwctCdate" /><!-- 创建日期 -->
+		<result column="CRWCT_UDATE" jdbcType="TIMESTAMP" property="crwctUdate" /><!-- 修改日期 -->
+		<result column="CRWCT_REMARKS" jdbcType="VARCHAR" property="crwctRemarks" /><!-- 备注 -->
+	</resultMap>
+	<sql id="coreWechatAsProperty">
+		CRWCT_UNID AS crwctUnid,
+		CRWCT_UUID AS crwctUuid,
+		CRWCT_NAME AS crwctName,
+		CRWCT_APPID AS crwctAppid,
+		CRWCT_APPSECRET AS crwctAppsecret,
+		CRWCT_ACCESS_TOKEN AS crwctAccessToken,
+		CRWCT_ACCESS_TIME AS crwctAccessTime,
+		CRWCT_JSAPI_TICKET AS crwctJsapiTicket,
+		CRWCT_JSAPI_TIME AS crwctJsapiTime,
+		CRWCT_PARTNER AS crwctPartner,
+		CRWCT_PARTNERKEY AS crwctPartnerkey,
+		CRWCT_NOTIFYURL AS crwctNotifyurl,
+		CRWCT_STATUS AS crwctStatus,
+		CRWCT_CDATE AS crwctCdate,
+		CRWCT_UDATE AS crwctUdate,
+		CRWCT_REMARKS AS crwctRemarks
+	</sql>
+	<sql id="coreWechatFieldIf">
+		<if test="crwctUnid!=null" >CRWCT_UNID,</if>
+		<if test="crwctName!=null" >CRWCT_NAME,</if>
+		<if test="crwctAppid!=null" >CRWCT_APPID,</if>
+		<if test="crwctAppsecret!=null" >CRWCT_APPSECRET,</if>
+		<if test="crwctAccessToken!=null" >CRWCT_ACCESS_TOKEN,</if>
+		<if test="crwctAccessTime!=null" >CRWCT_ACCESS_TIME,</if>
+		<if test="crwctJsapiTicket!=null" >CRWCT_JSAPI_TICKET,</if>
+		<if test="crwctJsapiTime!=null" >CRWCT_JSAPI_TIME,</if>
+		<if test="crwctPartner!=null" >CRWCT_PARTNER,</if>
+		<if test="crwctPartnerkey!=null" >CRWCT_PARTNERKEY,</if>
+		<if test="crwctNotifyurl!=null" >CRWCT_NOTIFYURL,</if>
+		<if test="crwctStatus!=null" >CRWCT_STATUS,</if>
+		<if test="crwctCdate!=null" >CRWCT_CDATE,</if>
+		<if test="crwctUdate!=null" >CRWCT_UDATE,</if>
+		<if test="crwctRemarks!=null" >CRWCT_REMARKS,</if>
+		<if test="crwctUuid!=null" >CRWCT_UUID</if>
+	</sql>
+	<sql id="coreWechatProperty">
+		<if test="crwctUnid!=null" >#{crwctUnid,jdbcType=NUMERIC},</if>
+		<if test="crwctName!=null" >#{crwctName,jdbcType=VARCHAR},</if>
+		<if test="crwctAppid!=null" >#{crwctAppid,jdbcType=VARCHAR},</if>
+		<if test="crwctAppsecret!=null" >#{crwctAppsecret,jdbcType=VARCHAR},</if>
+		<if test="crwctAccessToken!=null" >#{crwctAccessToken,jdbcType=VARCHAR},</if>
+		<if test="crwctAccessTime!=null" >#{crwctAccessTime,jdbcType=TIMESTAMP},</if>
+		<if test="crwctJsapiTicket!=null" >#{crwctJsapiTicket,jdbcType=VARCHAR},</if>
+		<if test="crwctJsapiTime!=null" >#{crwctJsapiTime,jdbcType=TIMESTAMP},</if>
+		<if test="crwctPartner!=null" >#{crwctPartner,jdbcType=VARCHAR},</if>
+		<if test="crwctPartnerkey!=null" >#{crwctPartnerkey,jdbcType=VARCHAR},</if>
+		<if test="crwctNotifyurl!=null" >#{crwctNotifyurl,jdbcType=VARCHAR},</if>
+		<if test="crwctStatus!=null" >#{crwctStatus,jdbcType=NUMERIC},</if>
+		<if test="crwctCdate!=null" >#{crwctCdate,jdbcType=TIMESTAMP},</if>
+		<if test="crwctUdate!=null" >#{crwctUdate,jdbcType=TIMESTAMP},</if>
+		<if test="crwctRemarks!=null" >#{crwctRemarks,jdbcType=VARCHAR},</if>
+		<if test="crwctUuid!=null" >#{crwctUuid,jdbcType=VARCHAR}</if>
+	</sql>
+	<sql id="coreWechatPropertyIf">
+		<if test="crwctUnid!=null" >CRWCT_UNID=#{crwctUnid,jdbcType=NUMERIC},</if>
+		<if test="crwctName!=null" >CRWCT_NAME=#{crwctName,jdbcType=VARCHAR},</if>
+		<if test="crwctAppid!=null" >CRWCT_APPID=#{crwctAppid,jdbcType=VARCHAR},</if>
+		<if test="crwctAppsecret!=null" >CRWCT_APPSECRET=#{crwctAppsecret,jdbcType=VARCHAR},</if>
+		<if test="crwctAccessToken!=null" >CRWCT_ACCESS_TOKEN=#{crwctAccessToken,jdbcType=VARCHAR},</if>
+		<if test="crwctAccessTime!=null" >CRWCT_ACCESS_TIME=#{crwctAccessTime,jdbcType=TIMESTAMP},</if>
+		<if test="crwctJsapiTicket!=null" >CRWCT_JSAPI_TICKET=#{crwctJsapiTicket,jdbcType=VARCHAR},</if>
+		<if test="crwctJsapiTime!=null" >CRWCT_JSAPI_TIME=#{crwctJsapiTime,jdbcType=TIMESTAMP},</if>
+		<if test="crwctPartner!=null" >CRWCT_PARTNER=#{crwctPartner,jdbcType=VARCHAR},</if>
+		<if test="crwctPartnerkey!=null" >CRWCT_PARTNERKEY=#{crwctPartnerkey,jdbcType=VARCHAR},</if>
+		<if test="crwctNotifyurl!=null" >CRWCT_NOTIFYURL=#{crwctNotifyurl,jdbcType=VARCHAR},</if>
+		<if test="crwctStatus!=null" >CRWCT_STATUS=#{crwctStatus,jdbcType=NUMERIC},</if>
+		<if test="crwctCdate!=null" >CRWCT_CDATE=#{crwctCdate,jdbcType=TIMESTAMP},</if>
+		<if test="crwctUdate!=null" >CRWCT_UDATE=#{crwctUdate,jdbcType=TIMESTAMP},</if>
+		<if test="crwctRemarks!=null" >CRWCT_REMARKS=#{crwctRemarks,jdbcType=VARCHAR},</if>
+		<if test="crwctUuid!=null" >CRWCT_UUID=#{crwctUuid,jdbcType=VARCHAR}</if>
+	</sql>
+	<insert id="insertCoreWechat" parameterType="CoreWechat" useGeneratedKeys="true" keyProperty="id" >
+		INSERT INTO CORE_WECHAT(<include refid="coreWechatFieldIf" />) VALUES (<include refid="coreWechatProperty" />)
+	</insert>
+	<select id="getCoreWechat" resultMap="coreWechatMapper" parameterType="CoreWechat">
+		SELECT <include refid="coreWechatAsProperty" /> FROM CORE_WECHAT <where> CRWCT_UUID=#{crwctUuid,jdbcType=VARCHAR} AND CRWCT_STATUS=1 </where>
+	</select>
+	<select id="getCoreWechatByName" resultMap="coreWechatMapper" parameterType="CoreWechat">
+		SELECT <include refid="coreWechatAsProperty" /> FROM CORE_WECHAT <where> CRWCT_NAME=#{crwctName,jdbcType=VARCHAR} AND CRWCT_STATUS=1 </where>
+	</select>
+	<update id="updateCoreWechat" parameterType="CoreWechat">
+		UPDATE CORE_WECHAT<set><include refid="coreWechatPropertyIf" /></set> <where> CRWCT_UUID=#{crwctUuid,jdbcType=VARCHAR} </where>
+	</update>
+	<update id="updateCoreWechatByAppid" parameterType="CoreWechat">
+		UPDATE CORE_WECHAT<set><include refid="coreWechatPropertyIf" /></set> <where> CRWCT_APPID=#{crwctAppid,jdbcType=VARCHAR} </where>
+	</update>
+	<!--  获取所有list-->
+	<select id="findCoreWechatForLists" resultMap="coreWechatMapper" parameterType="HashMap">
+		SELECT <include refid="coreWechatAsProperty" /> 
+		FROM CORE_WECHAT 
+		<where>
+			CRWCT_STATUS=1 
+			<if test="crwctName!=null" > AND CRWCT_NAME LIKE CONCAT('%', #{crwctName,jdbcType=VARCHAR}, '%')</if>
+		</where>
+	</select>
+	<!--  获取所有page-->
+	<select id="findCoreWechatForPages" resultMap="coreWechatMapper" parameterType="HashMap">
+		SELECT <include refid="coreWechatAsProperty" /> 
+		FROM CORE_WECHAT
+		<where>
+			CRWCT_STATUS=1 
+			<if test="crwctName!=null" > AND CRWCT_NAME LIKE CONCAT('%', #{crwctName,jdbcType=VARCHAR}, '%')</if>
+		</where>
+		ORDER BY CRWCT_UDATE DESC
+	</select>
+</mapper>

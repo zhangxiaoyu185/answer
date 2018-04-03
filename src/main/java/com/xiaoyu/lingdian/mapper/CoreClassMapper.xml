@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaoyu.lingdian.entity.CoreClass">
+    <resultMap id="coreClassMapper" type="CoreClass">
+        <id property="crcasUnid" column="CRCAS_UNID" jdbcType="NUMERIC"/><!-- "标识UNID" -->
+        <result property="crcasUuid" column="CRCAS_UUID" jdbcType="VARCHAR"/><!-- "标识UUID" -->
+        <result property="crcasSchool" column="CRCAS_SCHOOL" jdbcType="VARCHAR"/><!-- "所属学校" -->
+        <result property="crcasName" column="CRCAS_NAME" jdbcType="VARCHAR"/><!-- "班级名称" -->
+        <result property="crsclName" column="CRSCL_NAME" jdbcType="VARCHAR"/><!-- "学校名称" -->
+    </resultMap>
+    <sql id="coreClassAsProperty">
+				CRCAS_UNID AS crcasUnid,
+				CRCAS_UUID AS crcasUuid,
+						CRCAS_SCHOOL AS crcasSchool,
+								CRCAS_NAME AS crcasName,
+								CRSCL_NAME AS crsclName
+					</sql>
+    <sql id="coreClassFieldIf">
+        <if test="crcasUnid!=null">CRCAS_UNID,</if>
+        <if test="crcasSchool!=null">CRCAS_SCHOOL,</if>
+        <if test="crcasName!=null">CRCAS_NAME,</if>
+        <if test="crcasUuid!=null">CRCAS_UUID</if>
+    </sql>
+    <sql id="coreClassProperty">
+        <if test="crcasUnid!=null">#{crcasUnid,jdbcType=NUMERIC},</if>
+        <if test="crcasSchool!=null">#{crcasSchool,jdbcType=VARCHAR},</if>
+        <if test="crcasName!=null">#{crcasName,jdbcType=VARCHAR},</if>
+        <if test="crcasUuid!=null">#{crcasUuid,jdbcType=VARCHAR}</if>
+    </sql>
+    <sql id="coreClassPropertyIf">
+        <if test="crcasUnid!=null">CRCAS_UNID=#{crcasUnid,jdbcType=NUMERIC},</if>
+        <if test="crcasSchool!=null">CRCAS_SCHOOL=#{crcasSchool,jdbcType=VARCHAR},</if>
+        <if test="crcasName!=null">CRCAS_NAME=#{crcasName,jdbcType=VARCHAR},</if>
+        <if test="crcasUuid!=null">CRCAS_UUID=#{crcasUuid,jdbcType=VARCHAR}</if>
+    </sql>
+    <insert id="insertCoreClass" parameterType="CoreClass" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO CORE_CLASS(<include refid="coreClassFieldIf"/>) VALUES (<include refid="coreClassProperty"/>)
+    </insert>
+    <delete id="deleteCoreClass" parameterType="CoreClass">
+        DELETE FROM CORE_CLASS
+        <where>CRCAS_UUID=#{crcasUuid,jdbcType=VARCHAR}</where>
+    </delete>
+    <select id="getCoreClass" resultMap="coreClassMapper" parameterType="CoreClass">
+        SELECT
+        <include refid="coreClassAsProperty"/>
+        FROM CORE_CLASS
+        LEFT JOIN CORE_SCHOOL on CRCAS_SCHOOL = CRSCL_UUID
+        <where>CRCAS_UUID=#{crcasUuid,jdbcType=VARCHAR}</where>
+    </select>
+    <update id="updateCoreClass" parameterType="CoreClass">
+        UPDATE CORE_CLASS
+        <set>
+            <include refid="coreClassPropertyIf"/>
+        </set>
+        <where>CRCAS_UUID=#{crcasUuid,jdbcType=VARCHAR}</where>
+    </update>
+    <!--  批量删除-->
+    <delete id="deleteBatchCoreClassByIds" parameterType="HashMap">
+        DELETE FROM CORE_CLASS
+        <where>
+            <if test="list != null and list.size>0">
+                CRCAS_UUID in
+                <foreach item="item" index="id" collection="list" open="(" separator="," close=")">
+                    '${item}'
+                </foreach>
+            </if>
+        </where>
+    </delete>
+    <!--  获取学校下的所有班级list-->
+    <select id="findCoreClassForLists" resultMap="coreClassMapper" parameterType="HashMap">
+        SELECT
+        <include refid="coreClassAsProperty"/>
+        FROM CORE_CLASS
+        LEFT JOIN CORE_SCHOOL on CRCAS_SCHOOL = CRSCL_UUID
+        where CRCAS_SCHOOL = #{crcasSchool,jdbcType=VARCHAR}
+    </select>
+    <!--  获取所有page-->
+    <select id="findCoreClassForPages" resultMap="coreClassMapper" parameterType="HashMap">
+        SELECT
+        <include refid="coreClassAsProperty"/>
+        FROM CORE_CLASS
+        LEFT JOIN CORE_SCHOOL on CRCAS_SCHOOL = CRSCL_UUID
+        <where>
+            <if test="crcasSchool!=null and crcasSchool!=''">
+                and CRCAS_SCHOOL like concat('%',#{crcasSchool,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="crcasName!=null and crcasName!=''">
+                and CRCAS_NAME like concat('%',#{crcasName,jdbcType=VARCHAR},'%')
+            </if>
+        </where>
+    </select>
+</mapper>

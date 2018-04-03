@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaoyu.lingdian.entity.CoreLeningUser">
+    <resultMap id="coreLeningUserMapper" type="CoreLeningUser">
+        <id property="crlurUnid" column="CRLUR_UNID" jdbcType="NUMERIC"/><!-- "标识UNID" -->
+        <result property="crlurUuid" column="CRLUR_UUID" jdbcType="VARCHAR"/><!-- "标识UUID" -->
+        <result property="crlurLening" column="CRLUR_LENING" jdbcType="VARCHAR"/><!-- "所属教辅" -->
+        <result property="crlurUser" column="CRLUR_USER" jdbcType="VARCHAR"/><!-- "开通学生" -->
+    </resultMap>
+    <sql id="coreLeningUserAsProperty">
+				CRLUR_UNID AS crlurUnid,
+				CRLUR_UUID AS crlurUuid,
+						CRLUR_LENING AS crlurLening,
+								CRLUR_USER AS crlurUser
+					</sql>
+    <sql id="coreLeningUserFieldIf">
+        <if test="crlurUnid!=null">CRLUR_UNID,</if>
+        <if test="crlurLening!=null">CRLUR_LENING,</if>
+        <if test="crlurUser!=null">CRLUR_USER,</if>
+        <if test="crlurUuid!=null">CRLUR_UUID</if>
+    </sql>
+    <sql id="coreLeningUserProperty">
+        <if test="crlurUnid!=null">#{crlurUnid,jdbcType=NUMERIC},</if>
+        <if test="crlurLening!=null">#{crlurLening,jdbcType=VARCHAR},</if>
+        <if test="crlurUser!=null">#{crlurUser,jdbcType=VARCHAR},</if>
+        <if test="crlurUuid!=null">#{crlurUuid,jdbcType=VARCHAR}</if>
+    </sql>
+    <sql id="coreLeningUserPropertyIf">
+        <if test="crlurUnid!=null">CRLUR_UNID=#{crlurUnid,jdbcType=NUMERIC},</if>
+        <if test="crlurLening!=null">CRLUR_LENING=#{crlurLening,jdbcType=VARCHAR},</if>
+        <if test="crlurUser!=null">CRLUR_USER=#{crlurUser,jdbcType=VARCHAR},</if>
+        <if test="crlurUuid!=null">CRLUR_UUID=#{crlurUuid,jdbcType=VARCHAR}</if>
+    </sql>
+    <insert id="insertCoreLeningUser" parameterType="CoreLeningUser" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO CORE_LENING_USER(<include refid="coreLeningUserFieldIf"/>) VALUES (<include
+            refid="coreLeningUserProperty"/>)
+    </insert>
+    <delete id="deleteCoreLeningUser" parameterType="CoreLeningUser">
+        DELETE FROM CORE_LENING_USER
+        <where>CRLUR_USER=#{crlurUser,jdbcType=VARCHAR}</where>
+    </delete>
+    <!--  获取所有list-->
+    <select id="findCoreLeningUserByPaperAndUser" resultMap="coreLeningUserMapper" parameterType="HashMap">
+        SELECT
+        <include refid="coreLeningUserAsProperty"/>
+        FROM CORE_LENING_USER
+        LEFT JOIN CORE_PAPERS on CRLUR_LENING = CRPES_LENING
+        where CRPES_STATUS=1 and CRPES_UUID=#{paper,jdbcType=VARCHAR} and CRLUR_USER=#{user,jdbcType=VARCHAR}
+    </select>
+</mapper>

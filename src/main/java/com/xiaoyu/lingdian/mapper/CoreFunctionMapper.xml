@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaoyu.lingdian.entity.CoreFunction">
+	<resultMap id="coreFunctionMapper" type="CoreFunction">
+		<id column="CRFNT_UNID" jdbcType="NUMERIC" property="crfntUnid" /><!-- 标识UNID -->
+		<result column="CRFNT_UUID" jdbcType="VARCHAR" property="crfntUuid" /><!-- 标识UUID -->
+		<result column="CRFNT_FUN_NAME" jdbcType="VARCHAR" property="crfntFunName" /><!-- 功能项名称 -->
+		<result column="CRFNT_RESOURCE" jdbcType="VARCHAR" property="crfntResource" /><!-- 资源请求地址 -->
+		<result column="CRFNT_STATUS" jdbcType="NUMERIC" property="crfntStatus" /><!-- 状态 -->
+		<result column="CRFNT_CDATE" jdbcType="TIMESTAMP" property="crfntCdate" /><!-- 创建日期 -->
+		<result column="CRFNT_UDATE" jdbcType="TIMESTAMP" property="crfntUdate" /><!-- 修改日期 -->
+		<result column="CRFNT_ORD" jdbcType="NUMERIC" property="crfntOrd" /><!-- 排序号 -->
+		<result column="CRFNT_FATHER_UUID" jdbcType="VARCHAR" property="crfntFatherUuid" /><!-- 上级菜单 -->
+	</resultMap>
+	<sql id="coreFunctionAsProperty">
+		CRFNT_UNID AS crfntUnid,
+		CRFNT_UUID AS crfntUuid,
+		CRFNT_FUN_NAME AS crfntFunName,
+		CRFNT_RESOURCE AS crfntResource,
+		CRFNT_STATUS AS crfntStatus,
+		CRFNT_CDATE AS crfntCdate,
+		CRFNT_UDATE AS crfntUdate,
+		CRFNT_ORD AS crfntOrd,
+		CRFNT_FATHER_UUID AS crfntFatherUuid
+	</sql>
+	<sql id="coreFunctionFieldIf">
+		<if test="crfntUnid!=null" >CRFNT_UNID,</if>
+		<if test="crfntFunName!=null" >CRFNT_FUN_NAME,</if>
+		<if test="crfntResource!=null" >CRFNT_RESOURCE,</if>
+		<if test="crfntStatus!=null" >CRFNT_STATUS,</if>
+		<if test="crfntCdate!=null" >CRFNT_CDATE,</if>
+		<if test="crfntUdate!=null" >CRFNT_UDATE,</if>
+		<if test="crfntOrd!=null" >CRFNT_ORD,</if>
+		<if test="crfntFatherUuid!=null" >CRFNT_FATHER_UUID,</if>
+		<if test="crfntUuid!=null" >CRFNT_UUID</if>
+	</sql>
+	<sql id="coreFunctionProperty">
+		<if test="crfntUnid!=null" >#{crfntUnid,jdbcType=NUMERIC},</if>
+		<if test="crfntFunName!=null" >#{crfntFunName,jdbcType=VARCHAR},</if>
+		<if test="crfntResource!=null" >#{crfntResource,jdbcType=VARCHAR},</if>
+		<if test="crfntStatus!=null" >#{crfntStatus,jdbcType=NUMERIC},</if>
+		<if test="crfntCdate!=null" >#{crfntCdate,jdbcType=TIMESTAMP},</if>
+		<if test="crfntUdate!=null" >#{crfntUdate,jdbcType=TIMESTAMP},</if>
+		<if test="crfntOrd!=null" >#{crfntOrd,jdbcType=NUMERIC},</if>
+		<if test="crfntFatherUuid!=null" >#{crfntFatherUuid,jdbcType=VARCHAR},</if>
+		<if test="crfntUuid!=null" >#{crfntUuid,jdbcType=VARCHAR}</if>
+	</sql>
+	<sql id="coreFunctionPropertyIf">
+		<if test="crfntUnid!=null" >CRFNT_UNID=#{crfntUnid,jdbcType=NUMERIC},</if>
+		<if test="crfntFunName!=null" >CRFNT_FUN_NAME=#{crfntFunName,jdbcType=VARCHAR},</if>
+		<if test="crfntResource!=null" >CRFNT_RESOURCE=#{crfntResource,jdbcType=VARCHAR},</if>
+		<if test="crfntStatus!=null" >CRFNT_STATUS=#{crfntStatus,jdbcType=NUMERIC},</if>
+		<if test="crfntCdate!=null" >CRFNT_CDATE=#{crfntCdate,jdbcType=TIMESTAMP},</if>
+		<if test="crfntUdate!=null" >CRFNT_UDATE=#{crfntUdate,jdbcType=TIMESTAMP},</if>
+		<if test="crfntOrd!=null" >CRFNT_ORD=#{crfntOrd,jdbcType=NUMERIC},</if>
+		<if test="crfntFatherUuid!=null" >CRFNT_FATHER_UUID=#{crfntFatherUuid,jdbcType=VARCHAR},</if>
+		<if test="crfntUuid!=null" >CRFNT_UUID=#{crfntUuid,jdbcType=VARCHAR}</if>
+	</sql>
+	<insert id="insertCoreFunction" parameterType="CoreFunction" useGeneratedKeys="true" keyProperty="id" >
+		INSERT INTO CORE_FUNCTION(<include refid="coreFunctionFieldIf" />) VALUES (<include refid="coreFunctionProperty" />)
+	</insert>
+	<delete id="deleteCoreFunction" parameterType="CoreFunction">
+		DELETE FROM CORE_FUNCTION <where> CRFNT_UUID=#{crfntUuid,jdbcType=VARCHAR} </where>
+	</delete>
+	<select id="getCoreFunction" resultMap="coreFunctionMapper" parameterType="CoreFunction">
+		SELECT <include refid="coreFunctionAsProperty" /> FROM CORE_FUNCTION 
+		<where> 
+			1=1
+			<if test="crfntUuid!=null and crfntUuid!=''" > AND CRFNT_UUID=#{crfntUuid,jdbcType=VARCHAR}</if>
+			<if test="crfntStatus!=null" > AND CRFNT_STATUS=#{crfntStatus,jdbcType=NUMERIC}</if>
+			<if test="crfntFunName!=null and crfntFunName!=''" > AND CRFNT_FUN_NAME=#{crfntFunName,jdbcType=VARCHAR}</if>
+			<if test="crfntFatherUuid!=null and crfntFatherUuid!=''" > AND CRFNT_FATHER_UUID=#{crfntFatherUuid,jdbcType=VARCHAR}</if>
+		</where>
+	</select>
+	<update id="updateCoreFunction" parameterType="CoreFunction">
+		UPDATE CORE_FUNCTION<set><include refid="coreFunctionPropertyIf" /></set> <where> CRFNT_UUID=#{crfntUuid,jdbcType=VARCHAR} </where>
+	</update>
+<!-- 定制内容开始 --><!-- 定制内容结束 -->
+	<select id="getCoreFunctions" resultMap="coreFunctionMapper" >
+		SELECT <include refid="coreFunctionAsProperty" /> FROM CORE_FUNCTION <where>CRFNT_UUID!='AAA'</where> order by CRFNT_UNID desc
+	</select>
+	<!-- 获取主菜单和一级菜单 -->
+	<select id="getCoreFunctionByCnd" resultMap="coreFunctionMapper" >
+		SELECT <include refid="coreFunctionAsProperty" /> FROM CORE_FUNCTION 
+		<where> CRFNT_STATUS = 1 AND (CRFNT_UUID='AAA' OR CRFNT_FATHER_UUID='AAA') </where>
+	</select>
+	<select id="findCoreFunctionsByIds" resultMap="coreFunctionMapper" parameterType="HashMap">
+		SELECT <include refid="coreFunctionAsProperty" />
+		FROM CORE_FUNCTION 
+		<where>
+			CRFNT_STATUS = 1 AND CRFNT_UUID!='AAA' 
+			<if test="list != null and list.size>0">
+				AND CRFNT_UUID in
+				<foreach item="item" index="id" collection="list" open="("
+					separator="," close=")">
+					'${item}'
+				</foreach>
+			</if>
+		</where>
+	</select>
+	<!-- 根据父菜单统一修改 -->
+	<update id="updateCoreFunctionByFather" parameterType="CoreFunction">
+		UPDATE CORE_FUNCTION<set><include refid="coreFunctionPropertyIf" /></set> <where> CRFNT_FATHER_UUID=#{crfntFatherUuid,jdbcType=VARCHAR} </where>
+	</update>
+	<update id="updateCoreFunctionByCnd" parameterType="HashMap">
+		UPDATE CORE_FUNCTION<set><include refid="coreFunctionPropertyIf" /></set> 
+		<where>
+			<if test="list != null and list.size>0">
+				CRFNT_UUID in 
+				<foreach item="item" index="id" collection="list" open="(" separator="," close=")">
+					'${item}'
+				</foreach>
+			</if>
+		</where>
+	</update>
+	<delete id="deleteCoreFunctionByCnd" parameterType="HashMap">
+		DELETE FROM CORE_FUNCTION
+		<where>
+			<if test="list != null and list.size>0">
+				CRFNT_UUID in 
+				<foreach item="item" index="id" collection="list" open="(" separator="," close=")">
+					'${item}'
+				</foreach>
+			</if>
+		</where>
+	</delete>
+</mapper>

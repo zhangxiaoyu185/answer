@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaoyu.lingdian.entity.CoreRole">
+	<resultMap id="coreRoleMapper" type="CoreRole">
+		<id column="CRROL_UNID" jdbcType="NUMERIC" property="crrolUnid" /><!-- 标识UNID -->
+		<result column="CRROL_UUID" jdbcType="VARCHAR" property="crrolUuid" /><!-- 标识UUID -->
+		<result column="CRROL_NAME" jdbcType="VARCHAR" property="crrolName" /><!-- 角色名称 -->
+		<result column="CRROL_FUNS" jdbcType="VARCHAR" property="crrolFuns" /><!-- 功能菜单集合 -->
+		<result column="CRROL_DESC" jdbcType="VARCHAR" property="crrolDesc" /><!-- 角色描述 -->
+	</resultMap>
+	<sql id="coreRoleAsProperty">
+		CRROL_UNID AS crrolUnid,
+		CRROL_UUID AS crrolUuid,
+		CRROL_NAME AS crrolName,
+		CRROL_FUNS AS crrolFuns,
+		CRROL_DESC AS crrolDesc
+	</sql>
+	<sql id="coreRoleFieldIf">
+		<if test="crrolUnid!=null" >CRROL_UNID,</if>
+		<if test="crrolName!=null" >CRROL_NAME,</if>
+		<if test="crrolFuns!=null" >CRROL_FUNS,</if>
+		<if test="crrolDesc!=null" >CRROL_DESC,</if>
+		<if test="crrolUuid!=null" >CRROL_UUID</if>
+	</sql>
+	<sql id="coreRoleProperty">
+		<if test="crrolUnid!=null" >#{crrolUnid,jdbcType=NUMERIC},</if>
+		<if test="crrolName!=null" >#{crrolName,jdbcType=VARCHAR},</if>
+		<if test="crrolFuns!=null" >#{crrolFuns,jdbcType=VARCHAR},</if>
+		<if test="crrolDesc!=null" >#{crrolDesc,jdbcType=VARCHAR},</if>
+		<if test="crrolUuid!=null" >#{crrolUuid,jdbcType=VARCHAR}</if>
+	</sql>
+	<sql id="coreRolePropertyIf">
+		<if test="crrolUnid!=null" >CRROL_UNID=#{crrolUnid,jdbcType=NUMERIC},</if>
+		<if test="crrolName!=null" >CRROL_NAME=#{crrolName,jdbcType=VARCHAR},</if>
+		<if test="crrolFuns!=null" >CRROL_FUNS=#{crrolFuns,jdbcType=VARCHAR},</if>
+		<if test="crrolDesc!=null" >CRROL_DESC=#{crrolDesc,jdbcType=VARCHAR},</if>
+		<if test="crrolUuid!=null" >CRROL_UUID=#{crrolUuid,jdbcType=VARCHAR}</if>
+	</sql>
+	<insert id="insertCoreRole" parameterType="CoreRole" useGeneratedKeys="true" keyProperty="id" >
+		INSERT INTO CORE_ROLE(<include refid="coreRoleFieldIf" />) VALUES (<include refid="coreRoleProperty" />)
+	</insert>
+	<delete id="deleteCoreRole" parameterType="CoreRole">
+		DELETE FROM CORE_ROLE <where> CRROL_UUID=#{crrolUuid,jdbcType=VARCHAR} </where>
+	</delete>
+	<select id="getCoreRole" resultMap="coreRoleMapper" parameterType="CoreRole">
+		SELECT <include refid="coreRoleAsProperty" /> FROM CORE_ROLE
+		 <where> 
+		 	1=1
+		 	<if test="crrolUuid!=null and crrolUuid!=''" > and CRROL_UUID=#{crrolUuid,jdbcType=VARCHAR}</if>
+		 </where>
+	</select>
+	<select id="getCoreRoleByName" resultMap="coreRoleMapper" parameterType="CoreRole">
+		SELECT <include refid="coreRoleAsProperty" /> FROM CORE_ROLE
+		 <where> 
+		 	1=1
+		 	<if test="crrolUuid!=null and crrolUuid!=''" > and CRROL_UUID!=#{crrolUuid,jdbcType=VARCHAR}</if>
+			<if test="crrolName!=null and crrolName!=''" > and CRROL_NAME=#{crrolName,jdbcType=VARCHAR}</if>
+		 </where>
+	</select>
+	<update id="updateCoreRole" parameterType="CoreRole">
+		UPDATE CORE_ROLE<set><include refid="coreRolePropertyIf" /></set> <where> CRROL_UUID=#{crrolUuid,jdbcType=VARCHAR} </where>
+	</update>
+<!-- 定制内容开始 --><!-- 定制内容结束 -->
+	<select id="findCoreRoleList" resultMap="coreRoleMapper">
+		SELECT <include refid="coreRoleAsProperty" /> FROM CORE_ROLE order by CRROL_UNID desc
+	</select>	
+	<select id="findCoreRoleByIds" resultMap="coreRoleMapper" parameterType="HashMap">
+		SELECT <include refid="coreRoleAsProperty" /> FROM CORE_ROLE 
+		<where> 1=1
+			<if test="list != null and list.size>0">
+				AND CRROL_UUID in
+				<foreach item="item" index="id" collection="list" open="("
+					separator="," close=")">
+					'${item}'
+				</foreach>
+			</if>		
+		</where>
+	</select>
+	<delete id="deleteCoreRoleByCnd" parameterType="HashMap">
+		DELETE FROM CORE_ROLE
+		<where>
+			<if test="list != null and list.size>0">
+				CRROL_UUID in 
+				<foreach item="item" index="id" collection="list" open="(" separator="," close=")">
+					'${item}'
+				</foreach>
+			</if>
+		</where>
+	</delete>
+</mapper>

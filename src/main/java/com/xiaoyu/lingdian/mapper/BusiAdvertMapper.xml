@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaoyu.lingdian.entity.BusiAdvert">
+    <resultMap id="busiAdvertMapper" type="BusiAdvert">
+        <id property="bsaetUnid" column="BSAET_UNID" jdbcType="NUMERIC"/><!-- "标识UNID" -->
+        <result property="bsaetUuid" column="BSAET_UUID" jdbcType="VARCHAR"/><!-- "标识UUID" -->
+        <result property="bsaetLink" column="BSAET_LINK" jdbcType="VARCHAR"/><!-- "链接" -->
+        <result property="bsaetPic" column="BSAET_PIC" jdbcType="VARCHAR"/><!-- "封面图" -->
+        <result property="bsaetOrd" column="BSAET_ORD" jdbcType="NUMERIC"/><!-- "顺序" -->
+        <result property="bsaetStatus" column="BSAET_STATUS" jdbcType="NUMERIC"/><!-- "状态:1启动0禁用" -->
+        <result property="bsaetDesc" column="BSAET_DESC" jdbcType="VARCHAR"/><!-- "描述" -->
+        <result property="bsaetCdate" column="BSAET_CDATE" jdbcType="TIMESTAMP"/><!-- "创建时间" -->
+        <result property="bsaetUdate" column="BSAET_UDATE" jdbcType="TIMESTAMP"/><!-- "更新时间" -->
+    </resultMap>
+    <sql id="busiAdvertAsProperty">
+				BSAET_UNID AS bsaetUnid,
+				BSAET_UUID AS bsaetUuid,
+						BSAET_LINK AS bsaetLink,
+								BSAET_PIC AS bsaetPic,
+								BSAET_ORD AS bsaetOrd,
+								BSAET_STATUS AS bsaetStatus,
+								BSAET_DESC AS bsaetDesc,
+								BSAET_CDATE AS bsaetCdate,
+								BSAET_UDATE AS bsaetUdate
+					</sql>
+    <sql id="busiAdvertFieldIf">
+        <if test="bsaetUnid!=null">BSAET_UNID,</if>
+        <if test="bsaetLink!=null">BSAET_LINK,</if>
+        <if test="bsaetPic!=null">BSAET_PIC,</if>
+        <if test="bsaetOrd!=null">BSAET_ORD,</if>
+        <if test="bsaetStatus!=null">BSAET_STATUS,</if>
+        <if test="bsaetDesc!=null">BSAET_DESC,</if>
+        <if test="bsaetCdate!=null">BSAET_CDATE,</if>
+        <if test="bsaetUdate!=null">BSAET_UDATE,</if>
+        <if test="bsaetUuid!=null">BSAET_UUID</if>
+    </sql>
+    <sql id="busiAdvertProperty">
+        <if test="bsaetUnid!=null">#{bsaetUnid,jdbcType=NUMERIC},</if>
+        <if test="bsaetLink!=null">#{bsaetLink,jdbcType=VARCHAR},</if>
+        <if test="bsaetPic!=null">#{bsaetPic,jdbcType=VARCHAR},</if>
+        <if test="bsaetOrd!=null">#{bsaetOrd,jdbcType=NUMERIC},</if>
+        <if test="bsaetStatus!=null">#{bsaetStatus,jdbcType=NUMERIC},</if>
+        <if test="bsaetDesc!=null">#{bsaetDesc,jdbcType=VARCHAR},</if>
+        <if test="bsaetCdate!=null">#{bsaetCdate,jdbcType=TIMESTAMP},</if>
+        <if test="bsaetUdate!=null">#{bsaetUdate,jdbcType=TIMESTAMP},</if>
+        <if test="bsaetUuid!=null">#{bsaetUuid,jdbcType=VARCHAR}</if>
+    </sql>
+    <sql id="busiAdvertPropertyIf">
+        <if test="bsaetUnid!=null">BSAET_UNID=#{bsaetUnid,jdbcType=NUMERIC},</if>
+        <if test="bsaetLink!=null">BSAET_LINK=#{bsaetLink,jdbcType=VARCHAR},</if>
+        <if test="bsaetPic!=null">BSAET_PIC=#{bsaetPic,jdbcType=VARCHAR},</if>
+        <if test="bsaetOrd!=null">BSAET_ORD=#{bsaetOrd,jdbcType=NUMERIC},</if>
+        <if test="bsaetStatus!=null">BSAET_STATUS=#{bsaetStatus,jdbcType=NUMERIC},</if>
+        <if test="bsaetDesc!=null">BSAET_DESC=#{bsaetDesc,jdbcType=VARCHAR},</if>
+        <if test="bsaetCdate!=null">BSAET_CDATE=#{bsaetCdate,jdbcType=TIMESTAMP},</if>
+        <if test="bsaetUdate!=null">BSAET_UDATE=#{bsaetUdate,jdbcType=TIMESTAMP},</if>
+        <if test="bsaetUuid!=null">BSAET_UUID=#{bsaetUuid,jdbcType=VARCHAR}</if>
+    </sql>
+    <insert id="insertBusiAdvert" parameterType="BusiAdvert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO busi_advert(<include refid="busiAdvertFieldIf"/>) VALUES (<include refid="busiAdvertProperty"/>)
+    </insert>
+    <delete id="deleteBusiAdvert" parameterType="BusiAdvert">
+        DELETE FROM busi_advert
+        <where>BSAET_UUID=#{bsaetUuid,jdbcType=VARCHAR}</where>
+    </delete>
+    <select id="getBusiAdvert" resultMap="busiAdvertMapper" parameterType="BusiAdvert">
+        SELECT
+        <include refid="busiAdvertAsProperty"/>
+        FROM busi_advert
+        <where>BSAET_UUID=#{bsaetUuid,jdbcType=VARCHAR}</where>
+    </select>
+    <update id="updateBusiAdvert" parameterType="BusiAdvert">
+        UPDATE busi_advert
+        <set>
+            <include refid="busiAdvertPropertyIf"/>
+        </set>
+        <where>BSAET_UUID=#{bsaetUuid,jdbcType=VARCHAR}</where>
+    </update>
+    <!--  批量删除-->
+    <delete id="deleteBatchBusiAdvertByIds" parameterType="HashMap">
+        DELETE FROM busi_advert
+        <where>
+            <if test="list != null and list.size>0">
+                BSAET_UUID in
+                <foreach item="item" index="id" collection="list" open="(" separator="," close=")">
+                    '${item}'
+                </foreach>
+            </if>
+        </where>
+    </delete>
+    <!--  获取所有list-->
+    <select id="findBusiAdvertForLists" resultMap="busiAdvertMapper" parameterType="HashMap">
+        SELECT
+        <include refid="busiAdvertAsProperty"/>
+        FROM busi_advert
+        ORDER BY BSAET_ORD DESC, BSAET_UDATE DESC
+    </select>
+    <!--  获取所有page-->
+    <select id="findBusiAdvertForPages" resultMap="busiAdvertMapper" parameterType="HashMap">
+        SELECT
+        <include refid="busiAdvertAsProperty"/>
+        FROM busi_advert
+        <where>
+            <if test="bsaetLink!=null and bsaetLink!=''">
+                and BSAET_LINK like concat('%',#{bsaetLink,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="bsaetPic!=null and bsaetPic!=''">
+                and BSAET_PIC = #{bsaetPic,jdbcType=VARCHAR}
+            </if>
+            <if test="bsaetOrd!=null">
+                and BSAET_ORD=#{bsaetOrd,jdbcType=NUMERIC}
+            </if>
+            <if test="bsaetDesc!=null and bsaetDesc!=''">
+                and BSAET_DESC like concat('%',#{bsaetDesc,jdbcType=VARCHAR},'%')
+            </if>
+        </where>
+        ORDER BY BSAET_ORD DESC, BSAET_UDATE DESC
+    </select>
+</mapper>

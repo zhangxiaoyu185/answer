@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaoyu.lingdian.entity.CoreAttachment">
+	<resultMap id="coreAttachmentMapper" type="CoreAttachment">
+		<id column="CRATM_UNID" jdbcType="NUMERIC" property="cratmUnid" /><!-- 标识UNID -->
+		<result column="CRATM_UUID" jdbcType="VARCHAR" property="cratmUuid" /><!-- 标识UUID -->
+		<result column="CRATM_BUS_UUID" jdbcType="VARCHAR" property="cratmBusUuid" /><!-- 业务实体UUID -->
+		<result column="CRATM_FILE_NAME" jdbcType="VARCHAR" property="cratmFileName" /><!-- 名称 -->
+		<result column="CRATM_DIR" jdbcType="VARCHAR" property="cratmDir" /><!-- 目录,例a/b -->
+		<result column="CRATM_EXTENSION" jdbcType="VARCHAR" property="cratmExtension" /><!-- 文件扩展名 -->
+		<result column="CRATM_CDATE" jdbcType="TIMESTAMP" property="cratmCdate" /><!-- 创建日期 -->
+		<result column="CRATM_STATUS" jdbcType="NUMERIC" property="cratmStatus" /><!-- 状态:1启用,0禁用 -->
+		<result column="CRATM_WIDTH" jdbcType="NUMERIC" property="cratmWidth" /><!-- 宽度 -->
+		<result column="CRATM_HEIGHT" jdbcType="NUMERIC" property="cratmHeight" /><!-- 高度 -->
+		<result column="CRATM_TYPE" jdbcType="NUMERIC" property="cratmType" /><!-- 1图片2音频3视频4其它 -->
+	</resultMap>
+	<sql id="coreAttachmentAsProperty">
+		CRATM_UNID AS cratmUnid,
+		CRATM_UUID AS cratmUuid,
+		CRATM_BUS_UUID AS cratmBusUuid,
+		CRATM_FILE_NAME AS cratmFileName,
+		CRATM_DIR AS cratmDir,
+		CRATM_EXTENSION AS cratmExtension,
+		CRATM_CDATE AS cratmCdate,
+		CRATM_STATUS AS cratmStatus,
+		CRATM_WIDTH AS cratmWidth,
+		CRATM_HEIGHT AS cratmHeight,
+		CRATM_TYPE AS cratmType
+	</sql>
+	<sql id="coreAttachmentFieldIf">
+		<if test="cratmUnid!=null" >CRATM_UNID,</if>
+		<if test="cratmBusUuid!=null" >CRATM_BUS_UUID,</if>
+		<if test="cratmFileName!=null" >CRATM_FILE_NAME,</if>
+		<if test="cratmDir!=null" >CRATM_DIR,</if>
+		<if test="cratmExtension!=null" >CRATM_EXTENSION,</if>
+		<if test="cratmCdate!=null" >CRATM_CDATE,</if>
+		<if test="cratmStatus!=null" >CRATM_STATUS,</if>
+		<if test="cratmWidth!=null" >CRATM_WIDTH,</if>
+		<if test="cratmHeight!=null" >CRATM_HEIGHT,</if>
+		<if test="cratmType!=null" >CRATM_TYPE,</if>
+		<if test="cratmUuid!=null" >CRATM_UUID</if>
+	</sql>
+	<sql id="coreAttachmentProperty">
+		<if test="cratmUnid!=null" >#{cratmUnid,jdbcType=NUMERIC},</if>
+		<if test="cratmBusUuid!=null" >#{cratmBusUuid,jdbcType=VARCHAR},</if>
+		<if test="cratmFileName!=null" >#{cratmFileName,jdbcType=VARCHAR},</if>
+		<if test="cratmDir!=null" >#{cratmDir,jdbcType=VARCHAR},</if>
+		<if test="cratmExtension!=null" >#{cratmExtension,jdbcType=VARCHAR},</if>
+		<if test="cratmCdate!=null" >#{cratmCdate,jdbcType=TIMESTAMP},</if>
+		<if test="cratmStatus!=null" >#{cratmStatus,jdbcType=NUMERIC},</if>
+		<if test="cratmWidth!=null" >#{cratmWidth,jdbcType=NUMERIC},</if>
+		<if test="cratmHeight!=null" >#{cratmHeight,jdbcType=NUMERIC},</if>
+		<if test="cratmType!=null" >#{cratmType,jdbcType=NUMERIC},</if>
+		<if test="cratmUuid!=null" >#{cratmUuid,jdbcType=VARCHAR}</if>
+	</sql>
+	<sql id="coreAttachmentPropertyIf">
+		<if test="cratmUnid!=null" >CRATM_UNID=#{cratmUnid,jdbcType=NUMERIC},</if>
+		<if test="cratmBusUuid!=null" >CRATM_BUS_UUID=#{cratmBusUuid,jdbcType=VARCHAR},</if>
+		<if test="cratmFileName!=null" >CRATM_FILE_NAME=#{cratmFileName,jdbcType=VARCHAR},</if>
+		<if test="cratmDir!=null" >CRATM_DIR=#{cratmDir,jdbcType=VARCHAR},</if>
+		<if test="cratmExtension!=null" >CRATM_EXTENSION=#{cratmExtension,jdbcType=VARCHAR},</if>
+		<if test="cratmCdate!=null" >CRATM_CDATE=#{cratmCdate,jdbcType=TIMESTAMP},</if>
+		<if test="cratmStatus!=null" >CRATM_STATUS=#{cratmStatus,jdbcType=NUMERIC},</if>
+		<if test="cratmWidth!=null" >CRATM_WIDTH=#{cratmWidth,jdbcType=NUMERIC},</if>
+		<if test="cratmHeight!=null" >CRATM_HEIGHT=#{cratmHeight,jdbcType=NUMERIC},</if>
+		<if test="cratmType!=null" >CRATM_TYPE=#{cratmType,jdbcType=NUMERIC},</if>
+		<if test="cratmUuid!=null" >CRATM_UUID=#{cratmUuid,jdbcType=VARCHAR}</if>
+	</sql>
+	<insert id="insertCoreAttachment" parameterType="CoreAttachment" useGeneratedKeys="true" keyProperty="id" >
+		INSERT INTO CORE_ATTACHMENT(<include refid="coreAttachmentFieldIf" />) VALUES (<include refid="coreAttachmentProperty" />)
+	</insert>
+	<delete id="deleteCoreAttachment" parameterType="CoreAttachment">
+		DELETE FROM CORE_ATTACHMENT <where> CRATM_UUID=#{cratmUuid,jdbcType=VARCHAR} </where>
+	</delete>
+	<select id="getCoreAttachment" resultMap="coreAttachmentMapper" parameterType="CoreAttachment">
+		SELECT <include refid="coreAttachmentAsProperty" /> FROM CORE_ATTACHMENT <where> CRATM_UUID=#{cratmUuid,jdbcType=VARCHAR} </where>
+	</select>
+	<update id="updateCoreAttachment" parameterType="CoreAttachment">
+		UPDATE CORE_ATTACHMENT<set><include refid="coreAttachmentPropertyIf" /></set> <where> CRATM_UUID=#{cratmUuid,jdbcType=VARCHAR} </where>
+	</update>
+	<update id="updateCoreAttachmentByBus" parameterType="CoreAttachment">
+		UPDATE CORE_ATTACHMENT<set><include refid="coreAttachmentPropertyIf" /></set> <where> CRATM_BUS_UUID=#{cratmBusUuid,jdbcType=VARCHAR} </where>
+	</update>
+<!-- 定制内容开始 --><!-- 定制内容结束 -->
+	<select id="findCoreAttachmentByCnd" resultMap="coreAttachmentMapper" parameterType="HashMap">
+		SELECT <include refid="coreAttachmentAsProperty" />
+		FROM CORE_ATTACHMENT
+		<where>
+ 			CRATM_BUS_UUID=#{cratmBusUuid,jdbcType=VARCHAR}
+		</where>
+		order by CRATM_CDATE DESC 
+	</select>
+	<delete id="deleteCoreAttachmentByBusi" parameterType="CoreAttachment">
+		DELETE FROM CORE_ATTACHMENT <where> CRATM_BUS_UUID=#{cratmBusUuid,jdbcType=VARCHAR} </where>
+	</delete>
+</mapper>

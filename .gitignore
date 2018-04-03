@@ -28,3 +28,4 @@ target/
 #resource
 global/
 database/
+src/main/resource/

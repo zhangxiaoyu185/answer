@@ -1,0 +1,41 @@
+<!doctype html>
+<html style="height: 100%;">
+<head>
+  <meta charset="utf-8" />
+  <meta name="format-detection" content="telephone=no" />
+  <meta name="format-detection" content="email=no" />
+  <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width;" />
+
+  <title>错误</title>
+  <script type="text/javascript" src="../plugins/zepto.js"></script>
+  <script type="text/javascript" src="../../common.js"></script>
+  <script type="text/javascript" src="../js/common/common.js"></script>
+  <link rel="stylesheet" type="text/css" href="../css/error.css" />
+</head>
+<body style="height: 100%;">
+  <div class="error_flag"></div>
+  <div id="errorContent" class="error_span">错误信息</div>
+
+  <script type="text/javascript">
+    $(function() {
+      init();
+      $('#errorContent').html(dataGet('errorContent'));      
+    })
+
+    function init() {
+      pushHistory();  
+      window.addEventListener("popstate", function(e) {  
+          WeixinJSBridge.call("closeWindow");
+      }, false);  
+  }
+
+  function pushHistory() {  
+      var state = {  
+          title: "title",  
+          url: "#"  
+      };  
+      window.history.pushState(state, "title", "#");  
+  }
+  </script>
+</body>
+</html>

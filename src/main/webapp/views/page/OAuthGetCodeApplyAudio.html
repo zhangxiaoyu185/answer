@@ -1,0 +1,28 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width,user-scalable=0">
+<title></title>
+<script type="text/javascript" src="../public/js/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="../common.js"></script>
+</head>
+
+<body>
+	<script language="javascript" type="text/javascript">
+		//获得url参数
+		function getParpam(name) {
+			var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+			var r = window.location.search.substr(1).match(reg);
+			if(r!=null) return unescape(r[2]); return null;
+		}
+		
+		var appid = getParpam('appid');
+		var state = getParpam('wechat') + '_' + getParpam('number');
+	
+		window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid="+appid+"&redirect_uri="+urlfile+"/views/game/apply/views/audio/record.html&response_type=code&scope=snsapi_userinfo&state="+state+"&#wechat_redirect";
+	</script>
+</body>
+
+</html>

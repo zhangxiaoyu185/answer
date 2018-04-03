@@ -1,0 +1,28 @@
+body {
+    margin: 0px 0px;
+    padding: 0px 0px;
+    text-shadow: none;
+    font-size: 14px;
+}
+/************************错误页面*******************************/
+.error_flag {
+    width: 135px;
+    height: 105px;
+    background: url("../images/tool/error_flag.jpg") no-repeat;
+    -webkit-background-size: 135px 105px;
+    background-size: 135px 105px;
+    top: 80px;
+    margin: 0px auto;
+    position: relative;
+}
+
+.error_span {
+    width: 100%;
+    height: 16px;
+    font-size: 16px;
+    color: #747474;
+    text-align: center;
+    position: relative;
+    top: 120px;
+    font-weight: bold;
+}

@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="initial-scale=1 minimum-scale=1, maximum-scale=1,user-scalable=no,minimal-ui"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="js/mobiscroll/mobiscroll-2.13.2.full.min.css">
+    <link rel="stylesheet" href="css/iconfont/iconfont.css">
+    <title>注册</title>
+    <script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
+    <script type="text/javascript" src="../common.js"></script>
+    <link rel="stylesheet" type="text/css" href="plugins/layer/need/layer.css" />
+    <script type="text/javascript" src="plugins/layer/layer.js"></script>
+    <script type="text/javascript" src="js/common/common.js"></script>
+    <script type="text/javascript" src="js/common/cutscreen.js"></script>
+    <script src="js/mobiscroll/mobiscroll-2.13.2.full.min.js"></script>
+</head>
+<style>
+    .mbsc-android-holo .dw-li {
+        color: #333;
+        font-size: .24rem;
+    }
+    .mbsc-android-holo .dwv {
+        border-bottom: 1px solid #31b6e7;
+        font-size: .28rem;
+    }
+</style>
+<body>
+<div class="register login_bg">
+    <div class="header">
+       <!-- <div class="iconfont icon-houtui icon"></div>-->
+    </div>
+    <ul class="big">
+        <li class="title tc">请填写注册信息</li>
+    </ul>
+    <ul class="fill">
+        <li><input type="text" id="crusrCode" name="crusrCode" placeholder="输入你的姓名"></li>
+        <li><input type="password" id="crusrPassword" name="crusrPassword" placeholder="输入你的密码"></li>
+        <li><input type="number" id="crusrMobile" name="crusrMobile" placeholder="输入你的手机号"></li>
+        <li>
+            <ul id="sexlist">
+                <li data-val="1">男</li>
+                <li data-val="2">女</li>
+            </ul>
+        </li>
+        <li><input type="text" id="crusrSchool" name="crusrSchool" placeholder="输入你的学校"></li>
+        <li><input type="text" id="crusrClass" name="crusrClass" placeholder="输入你的班级"></li>
+    </ul>
+
+    <div class="register_btn tc">注册</div>
+    <a href="login.html" class="login_link">已有账号？点击直接登录</a>
+</div>
+
+</body>
+</html>
+<script>
+    var sex,paper;
+
+    $(function () {
+        paper = dataGet('paper');
+        if(!paper) {
+            paper = GetParpam('paper');
+            if(!paper) {
+                dataSave('errorContent', "试卷不存在,请重新扫码");
+                nextView('view/error.html');
+                return;
+            }
+        }
+
+        $(".register_btn").click(function () {
+            register();
+        });
+
+        $("#sexlist").mobiscroll().treelist({
+            theme: "android-ics light",
+            lang: "zh",
+            fixedWidth: [100, 100],//2组滚动框的宽度
+            /*display: 'bottom',*/
+            defaultValue: [Math.floor($('#sexlist li').size()/ 2)],
+            cancelText: null,
+            placeholder: '选择你的性别',
+            rows: 3,//滚动区域内的行数
+            headerText: function (valueText) {
+                return "选择性别";
+            },
+            formatResult: function (array) {
+                //返回自定义格式结果
+                //console.log(array);
+            },
+            onSelect: function (valueText, inst) {
+                sex = inst.values;
+                $("#sexlist>li").each(function(index){
+                    if($(this).attr('data-val')==inst.values){
+                        $('#sexlist_dummy').val($(this).html());
+                    }
+                });
+            }
+        });
+    });
+
+    function register() {
+        var crusrCode = $('#crusrCode').val();
+        var crusrPassword = $('#crusrPassword').val();
+        var crusrMobile = $('#crusrMobile').val();
+        var crusrSchool = $('#crusrSchool').val();
+        var crusrClass = $('#crusrClass').val();
+        if(!crusrCode) {
+            alert('请输入姓名');
+            $("#crusrCode").focus();
+            return;
+        }
+        if(!crusrPassword) {
+            alert('请输入密码');
+            $("#crusrPassword").focus();
+            return;
+        }
+        if(!crusrMobile) {
+            alert('请输入手机号');
+            $("#crusrMobile").focus();
+            return;
+        }
+        if(!sex || !sex[0]) {
+            alert('请选择性别');
+            return;
+        }
+        //注册并自动登陆
+        var data = {
+            crusrCode: crusrCode,
+            crusrPassword: crusrPassword,
+            crusrMobile: crusrMobile,
+            crusrGender: sex[0],
+            crusrSchool: crusrSchool,
+            crusrClass: crusrClass
+        }
+        var url = WEB_URL + "coreUser/add/coreUser";
+        ajaxTool("post",data,url,
+            function error(XMLHttpRequest, textStatus, errorThrown,fnErr){
+                alert(JSON.stringify(data));
+            },
+            function success(odata){
+                if(!odata.success) {
+                    alert(odata.errMsg);
+                }else{
+                    dataSave('userUuid', odata.data.crusrUuid);
+                    dataSave('crusrName', odata.data.crusrName);
+                    dataSave('crusrCode', odata.data.crusrCode);
+                    dataSave('crusrPassword', odata.data.crusrPassword);
+                    layer.open({
+                        content: "你的学号为："+odata.data.crusrName
+                        ,skin: 'msg'
+                        ,time: 1 //2秒后自动关闭
+                    });
+                    setTimeout("nextView('exam.html?paper="+paper+"')", 500);
+                }
+            },true
+        );
+    }
+</script>

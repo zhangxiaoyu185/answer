@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width;" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/iconfont/iconfont.css">
+    <title>登录</title>
+    <script type="text/javascript" src="plugins/jquery-3.0.0.min.js"></script>
+    <script type="text/javascript" src="../common.js"></script>
+    <link rel="stylesheet" type="text/css" href="plugins/layer/need/layer.css" />
+    <script type="text/javascript" src="plugins/layer/layer.js"></script>
+    <script type="text/javascript" src="js/common/common.js"></script>
+    <script type="text/javascript" src="js/common/cutscreen.js"></script>
+</head>
+<body>
+<div class="login_bg">
+    <ul>
+        <li class="title tc">登录</li>
+        <li class="small_title tc">一起答题开启，欢乐学习之旅</li>
+    </ul>
+    <div class="title_bg">
+        <div class="content">
+            <div class="ipt"><input id="crusrName" name="crusrName" type="text" placeholder="手机号码或学号"></div>
+            <div class="one"></div>
+            <div class="ipt"><input id="crusrPassword" name="crusrPassword" type="password" placeholder="登录密码"></div>
+        </div>
+    </div>
+    <div class="login_btn tc" onclick="login()">登录</div>
+    <a href="register.html" class="login_link">没有账号？立即注册</a>
+</div>
+</body>
+<script type="text/javascript">
+    var paper;
+    function login() {
+        paper = dataGet('paper');
+        if(!paper) {
+            paper = GetParpam('paper');
+            if(!paper) {
+                dataSave('errorContent', "试卷不存在,请重新扫码");
+                nextView('view/error.html');
+                return;
+            }
+        }
+        var crusrName = $('#crusrName').val();
+        var crusrPassword = $('#crusrPassword').val();
+        if(!crusrName) {
+            alert('请输入手机号码或学号');
+            $("#crusrName").focus();
+            return;
+        }
+        if(!crusrPassword) {
+            alert('请输入密码');
+            $("#crusrPassword").focus();
+            return;
+        }
+        //登陆并判断页面跳转
+        var data = {
+            crusrName: crusrName,
+            crusrPassword: crusrPassword,
+            paper: paper
+        };
+        var url = WEB_URL + "coreUser/login";
+        ajaxTool("post",data,url,
+            function error(XMLHttpRequest, textStatus, errorThrown,fnErr){
+                alert(JSON.stringify(data));
+            },
+            function success(odata){
+                if(!odata.success) {
+                    alert(odata.errMsg);
+                }else{
+                    dataSave('userUuid', odata.data.crusrUuid);
+                    dataSave('crusrName', odata.data.crusrName);
+                    dataSave('crusrCode', odata.data.crusrCode);
+                    dataSave('crusrPassword', odata.data.crusrPassword);
+                    if(odata.code == 2) {
+                        nextView('exam.html?paper='+paper);
+                    } else if(odata.code == 3) {
+                        nextView('view.html?paper='+paper);
+                    } else {
+                        alert(odata.errMsg);
+                    }
+                }
+            },true
+        );
+    }
+</script>
+</html>

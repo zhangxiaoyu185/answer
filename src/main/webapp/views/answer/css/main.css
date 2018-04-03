@@ -1,0 +1,362 @@
+ul,li,p,body{
+    margin: 0;
+    padding: 0;
+}
+.header{
+    height: 0.88rem;
+    line-height: 0.88rem;
+    font-size: .18rem;
+}
+.header .icon{
+    width: 100px;
+    height: 100%;
+    color: #42cdfc;
+    font-size: .34rem;
+    padding-left: .25rem;
+    font-weight: bold;
+}
+/*********************************查看*******************************/
+.view .close_btn {
+    width: 100%;
+    height: .7rem;
+    background: #fb901d;
+    font-size: .36rem;
+    line-height: .7rem;
+    letter-spacing: 5px;
+    color: #fff;
+    position: fixed;
+    bottom: 0;
+}
+.view #exit{
+    float: right;
+    padding-right: .15rem;
+    color: #1029ef;
+    font-weight: bold;
+}
+.view .item {
+    width: 92%;
+    height: 1.9rem;
+    margin: auto;
+    margin-bottom: .21rem;
+    border: 1px solid #e3e2e2;
+}
+.view .item  .left{
+    width: 80%;
+    height: 100%;
+}
+.view .item  .subject{
+    width: 100%;
+    height:.58rem;
+}
+.view .subject .triangle-topleft {
+    width: 0;
+    height: 0;
+    border-top: .58rem solid #8fc31f;
+    border-right: .58rem solid transparent;
+    position: relative;
+}
+.view .subject .triangle-topleft .num{
+    width: .58rem;
+    height: .58rem;
+    color: #ffffff;
+    position: absolute;
+    left: .02rem;
+    bottom: 0;
+    right: 0;
+    font-size: .22rem;
+}
+.view .item .subject .score{
+    color: #999;
+    font-size: .26rem;
+    height: 100%;
+    width: 78%;
+    line-height: .52rem;
+}
+.view .item .subject .score span{
+    color: #D45E0C;
+    font-weight: bold;
+}
+.view .subject_detail{
+    width: 100%;
+    height: 1.32rem;
+}
+
+.view .subject_detail .my_result ,.view .subject_detail .true_result{
+    height: 100%;
+    width: 50%;
+    font-size: .24rem;
+    float: left;
+}
+.view .subject_detail .my_result li , .view .subject_detail .true_result li{
+    height: 50%;
+    font-size: .24rem;
+    line-height: .6rem;
+    padding-left: .15rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.view .subject_detail .my_result{
+}
+.view .subject_detail .my_result li{
+}
+
+.view .subject_detail .true_result{
+}
+.view .subject_detail .true_result li{
+    color: #2340CE;
+}
+.view .item  .right{
+    width: 20%;
+    height: 1.9rem;
+    color: #ffffff;
+    font-size: .24rem;
+    /*font-weight: bold;*/
+    background: url("../images/play_btn.png") no-repeat center center;
+    background-size: .95rem .95rem;
+}
+.view .item  .right .text{
+    width: 100%;
+    height: 1.9rem;
+    text-align: center;
+    margin: auto;
+    margin-top: .59rem;
+    letter-spacing: 2px;
+}
+
+/*********************************考试*******************************/
+.exam .exam_header{
+    position: fixed;
+    top: 0rem;
+    height:2.44rem ;
+    width: 100%;
+    z-index: 11111;
+}
+.exam #exit{
+    float: right;
+    padding-right: .15rem;
+    color: #1029ef;
+    font-weight: bold;
+}
+.exam .top {
+    height: 1.92rem;
+    line-height: 1.92rem;
+    font-size: .18rem;
+    background: url("../images/exam_bg.jpg") no-repeat;
+    background-size: cover;
+}
+.exam .top ul{
+    height: 100%;
+
+}
+.exam .top ul li{
+    height: 43%;
+    padding: 0;
+    margin: 0;
+    line-height: 293%;
+}
+.exam .top ul .title {
+    color: #ffe805;
+    font-size: .42rem;
+    font-weight: bold;
+    letter-spacing: 2px;
+    text-align: center;
+
+}
+.exam .top ul .time{
+    color: #fff;
+    font-size: .32rem;
+    text-decoration: underline;
+}
+.exam .info{
+    height: .52rem;
+    background: #3a9907;
+    color: #e9e18f;
+}
+.exam .info li{
+    height: 100%;
+    padding-left: .15rem;
+    font-size: .24rem;
+    float: left;
+    line-height: .52rem;
+}
+.exam .fill{
+    margin-top: .36rem;
+}
+.exam .fill li{
+    width: 5.48rem;
+    height: .7rem;
+    border-radius: .08rem;
+    /* border: 1px solid #ebebeb;*/
+    margin: auto;
+    margin-bottom: .21rem
+}
+.exam .fill  li p{
+    width: .65rem;
+    height: 100%;
+    padding-left: .1rem;
+    background: #3a9907;
+    color: #ffffff;
+    font-size: .28rem;
+    float: left;
+    border-top-left-radius: .08rem;
+    border-bottom-left-radius: .08rem;
+}
+.exam .fill li input{
+    width: 4.79rem;
+    height: 100%;
+    display: block;
+    font-size: .3rem;
+    color: #333;
+    background: #F3F3F3;
+    padding-left: .3rem;
+    border-top-right-radius: .08rem;
+    border-bottom-right-radius: .08rem;
+    float: left;
+}
+
+.exam .exam_btn{
+    width: 5.48rem;
+    height: .7rem;
+    border-radius: .08rem;
+    border: 1px solid #F79023;
+    margin: auto;
+    background: #fb901d;
+    margin: .5rem auto;
+    font-size: .36rem;
+    line-height: .7rem;
+    letter-spacing: 5px;
+    color: #fff;
+}
+/******************************注册************************************/
+.register .big .title{
+    color: #42cdfc;
+    font-size: .33rem;
+    letter-spacing: 3px;
+}
+.register .login_link{
+    width: 5.48rem;
+    font-size: .2rem;
+    display: block;
+    margin: auto;
+    color: #dc5e01;
+    margin-top: -.1rem;
+}
+.register .big{
+    margin-top: .1rem;
+}
+.register .fill {
+    margin-top: .36rem;
+    margin-bottom: .4rem;
+}
+.register .fill  li, .register_btn{
+    width: 5.48rem;
+    height: .7rem;
+    border-radius: .08rem;
+    border: 1px solid #ebebeb;
+    margin: auto;
+    background: #f7f7f7;
+    margin-bottom: .21rem
+}
+
+.register .fill  li input{
+    width: 100%;
+    height: 100%;
+    display: block;
+    background: #fff;
+    font-size: .24rem;
+    color: #666666;
+    padding-left: .3rem;
+    border-radius: .15rem;
+}
+.register  .register_btn{
+    background: #a2e7fe;
+    border:1px solid #91def7;
+    color: #ffffff;
+    font-size: .36rem;
+    letter-spacing:.05rem;
+    line-height: .7rem;
+}
+/******************************登陆************************************/
+.login_bg {
+    width: 100%;
+    height: 100%;
+    background: url("../images/login_bg.jpg") no-repeat;
+    background-size: 100% 100%;
+}
+.login_bg .login_link{
+    width: 5.48rem;
+    font-size: .2rem;
+    display: block;
+    margin: auto;
+    color: #dc5e01;
+    margin-top: .1rem;
+}
+.login_bg .title{
+    font-size: .5rem;
+    letter-spacing: .2rem;
+    color: #333;
+    padding-top: 1.5rem;
+}
+.login_bg .small_title{
+    font-size: .27rem;
+    color: #4dacf1;
+    margin-top: .4rem;
+}
+.login_bg .title_bg{
+    width: 5.7rem;
+    height: 3rem;
+    background-size: 4rem 1.22rem;
+    background: url("../images/title_bg.png") no-repeat;
+    background-size: contain;
+    background-position: center 0;
+    margin: auto;
+    margin-top: .75rem;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+}
+.login_bg .title_bg .content{
+    width: 5.66rem;
+    height: 1.71rem;
+    background-color: #ffffff;
+    border-radius: .15rem;
+    -o-border-radius: .15rem;
+    -ms-moz-border-radius:.15rem;
+    -moz-border-radius:.15rem;
+}
+.login_bg .title_bg .content .ipt{
+    width: 100%;
+    height: .85rem;
+}
+.login_bg .title_bg .content .ipt input{
+    width: 100%;
+    height: 100%;
+    padding-left: .25rem;
+    border: none;
+    display: block;
+    color: #333;
+    font-size: .24rem;
+    border-radius: .15rem;
+    -o-border-radius: .15rem;
+    -ms-moz-border-radius:.15rem;
+    -moz-border-radius:.15rem;
+}
+.login_bg .title_bg .content .one{
+    width: 96%;
+    margin: auto;
+    height: 1px;
+    background-color: #DEDEDE;
+}
+.login_bg .login_btn{
+    width: 5.66rem;
+    height: .88rem;
+    margin: auto;
+    background-color: #4dacf1;
+    color: #ffffff;
+    font-size: .36rem;
+    line-height: .88rem;
+    border-radius: .15rem;
+    margin-top: .5rem;
+    letter-spacing: 8px;
+}

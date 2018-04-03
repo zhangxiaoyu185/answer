@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="initial-scale=1 minimum-scale=1, maximum-scale=1,user-scalable=no,minimal-ui"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/iconfont/iconfont.css">
+    <link rel="stylesheet" href="plugins/bxslider/jquery.bxslider.css">
+    <link rel="stylesheet" type="text/css" href="plugins/layer/need/layer.css" />
+    <title>查看</title>
+    <script type="text/javascript" src="plugins/jquery-3.0.0.min.js"></script>
+    <script type="text/javascript" src="../common.js"></script>
+    <script type="text/javascript" src="plugins/bxslider/jquery.bxslider.js"></script>
+    <script type="text/javascript" src="plugins/layer/layer.js"></script>
+    <script type="text/javascript" src="js/common/common.js"></script>
+    <script type="text/javascript" src="js/common/cutscreen.js"></script>
+</head>
+<style>
+    .mbsc-android-holo .dw-li {
+        color: #333;
+        font-size: .24rem;
+    }
+    .mbsc-android-holo .dwv {
+        border-bottom: 1px solid #31b6e7;
+        font-size: .28rem;
+    }
+    .button1 {
+        display: inline-block;
+        vertical-align: top;
+        margin: 0 5px 10px 0;
+        height: 36px;
+        line-height: 36px;
+        border-radius: 3px;
+        padding: 0 30px;
+        background-color: #FF4351;
+        color: #fff;
+        border: none;
+    }
+    .bxslider1{
+        position: fixed;
+        width: 100%;
+        z-index: 11111;
+    }
+</style>
+<body>
+<div class="exam view">
+    <div class="exam_header">
+        <div class="top">
+            <ul>
+                <li id="paperTitle" class="title"></li>
+                <li id="paperScore" class="time tc"></li>
+            </ul>
+        </div>
+        <ul class="info">
+            <li id="userCode"></li>
+            <li id="userName"></li>
+            <li id="userGrade"></li>
+            <li id="exit">退出系统</li>
+        </ul>
+    </div>
+
+    <ul id="paperContent" style=" margin-top: 2.8rem;">
+    </ul>
+
+    <!--<a href="">-->
+    <!--<div class="close_btn tc">提交</div>-->
+    <!--</a>-->
+    <!-- banner轮播图 -->
+    <ul class="bxslider bxslider1">
+    </ul>
+</div>
+
+</body>
+</html>
+<script>
+    var crpsaExpire = 0;
+    var crpsaCdate;
+    var paper;
+    $(function () {
+        paper = dataGet('paper');
+        if(!paper) {
+            paper = GetParpam('paper');
+            if(!paper) {
+                dataSave('errorContent', "试卷不存在,请重新扫码");
+                nextView('view/error.html');
+                return;
+            }
+        }
+
+        getPapersAnswer();
+
+        $("#exit").click(function () {
+            nextView('login.html?paper='+paper);
+        });
+
+        getBanner();
+    });
+
+    function getBanner() {
+        var str = '';
+        var url = WEB_URL + "busiAdvert/find/all";
+        ajaxTool("get", str, url,
+            function error(XMLHttpRequest, textStatus, errorThrown, fnErr) {
+                alert("error:" + str);
+            },
+            function success(data) {
+                if (!data.success) {
+                    alert(data.errMsg);
+                } else {
+                    var strhtml_selectUl = '';
+                    var arrData = data.data;
+                    var ln = arrData.length;
+                    for (var i = 0; i < ln; i++) {
+                        strhtml_selectUl += '<li><a href="'+arrData[i].bsaetLink+'"><img src="'+WEB_URL + "/coreAttachment/image/get/"+arrData[i].bsaetPic+'" width="100%"></a></li>';
+                    }
+                    $('.bxslider').html(strhtml_selectUl);
+
+                    // 轮播图
+                    $('.bxslider').bxSlider({
+                        mode: 'horizontal', //默认的是水平
+                        displaySlideQty: 1,//显示li的个数
+                        moveSlideQty: 1,//移动li的个数
+                        captions: true,//自动控制
+                        auto: true, //自动播放
+                        speed: 200,
+                        pager:false, //不显示下方的页码
+                        controls: false//隐藏左右按钮
+                    });
+                }
+            }, true);
+    }
+
+    function getPapersAnswer() {
+        var userUuid = dataGet('userUuid');
+        var crusrCode = dataGet('crusrCode');
+        var crusrName = dataGet('crusrName');
+        if(!userUuid || !crusrName || !crusrCode) {
+            //用户信息缺失，跳转到登陆页面
+            layer.open({
+                content: "用户信息已过期，请重新登陆"
+                ,skin: 'msg'
+                ,time: 1 //2秒后自动关闭
+            });
+            setTimeout("nextView('login.html?paper="+paper+"')", 500);
+            return;
+        }
+        $("#userCode").html(crusrCode);
+        $("#userName").html(crusrName);
+        //获取答题情况
+        var url = WEB_URL + "corePapersAnswer/view/by/paperuser";
+        var strdata = {
+            paper: paper,
+            user: userUuid
+        }
+        ajaxTool("post", strdata, url,
+            function error(XMLHttpRequest, textStatus, errorThrown, fnErr) {
+                alert("error:" + str);
+            },
+            function success(data) {
+                if (!data.success) {
+                    nextView('login.html?paper='+paper);
+                    return;
+                } else {
+                    var arrData = data.data;
+                    $("#paperTitle").html(arrData.crpesName);
+                    $("#paperScore").html("得分："+arrData.crpsaScore);
+                    $("#userGrade").html(arrData.crlngName);
+                    crpsaExpire = arrData.crpsaExpire;
+                    crpsaCdate = arrData.crpsaCdate;
+                    var strhtml_selectUl = '';
+                    var crpsaQuestion = data.data.crpsaQuestion;
+                    if(''==crpsaQuestion || undefined==crpsaQuestion){
+                        alert('没有题目');
+                        return;
+                    }
+                    var parsedJson = jQuery.parseJSON(crpsaQuestion);
+                    var problemJsonArray = parsedJson.problem;
+                    var ln = problemJsonArray.length;
+                    for (var i = 0; i < ln; i++) {
+                        var judge = "√";
+                        if(problemJsonArray[i].judge == 2) {
+                            judge = "×";
+                        }
+                        strhtml_selectUl += '<li class="item" >';
+                        strhtml_selectUl += '<div class="left fl">';
+                        strhtml_selectUl += '<div class="subject">';
+                        strhtml_selectUl += '<div class="triangle-topleft fl"><div class="num">'+problemJsonArray[i].name+'</div></div>';
+                        strhtml_selectUl += '<div class="score  ellipse fl" >你的得分：<span style="">'+problemJsonArray[i].score+'分</span><span style="">'+judge+'</span></div>';
+                        strhtml_selectUl += '</div>';
+                        strhtml_selectUl += '<div class="subject_detail">';
+                        strhtml_selectUl += '<ul class="my_result">';
+                        strhtml_selectUl += '<li>你的答案</li>';
+                        strhtml_selectUl += '<li style="line-height: .4rem;">'+problemJsonArray[i].content+'</li>';
+                        strhtml_selectUl += '</ul>';
+                        strhtml_selectUl += '<ul class="true_result">';
+                        strhtml_selectUl += '<li>正确答案</li>';
+                        strhtml_selectUl += '<li style="line-height: .4rem;">'+problemJsonArray[i].result+'</li>';
+                        strhtml_selectUl += '</ul>';
+                        strhtml_selectUl += '</div>';
+                        strhtml_selectUl += '</div>';
+                        strhtml_selectUl += '<div class="right fl"><div data-dirMovie="'+problemJsonArray[i].dirMovie+'" data-movie="'+problemJsonArray[i].movie+'" onclick="moviePlay(this)" class="text">视频<br>讲解</div></div>';
+                        strhtml_selectUl += '</li>';
+                    }
+                    $('#paperContent').html(strhtml_selectUl);
+                }
+            }, true);
+    }
+
+    function moviePlay(obj) {
+        var dirMovie = $(obj).attr("data-dirMovie");
+        var movieName = $(obj).attr("data-movie");
+        var newDate = new Date();
+        newDate.setTime(crpsaCdate);
+        var nowDate = new Date();
+        var msecond = parseInt(nowDate - newDate);
+        console.log(msecond);
+        var jgTime = crpsaExpire * 60 * 60 * 1000;
+        console.log(jgTime);
+        if(msecond >= jgTime) {
+            alert('查看视频已过有效期');
+            return;
+        }
+        var index1=movieName.lastIndexOf(".");
+        var index2=movieName.length;
+        var typePlay=movieName.substring(index1+1,index2).toLowerCase();//后缀名
+        var movieUrl = "../../../movie/"+encodeURIComponent(dirMovie)+"/"+encodeURIComponent(movieName);
+        var htmlStr =  "";
+        if(typePlay =='mp4') {
+            htmlStr =   '<embed style="width: 0;">'+
+                '<video src="'+ movieUrl +'"  width="640" height="480" controls="controls"></video>'+
+                '</embed>';
+        }else {
+            htmlStr = '<embed width="640" height="480" src="'+ movieUrl +'"></embed>';
+        }
+        htmlStr +='<div style="text-align:center"><a href="javascript:;" class="button1" onclick="layer.closeAll();">关闭视频</a></div>';
+        /**
+         layer.open({
+            type: 1,
+            shadeClose: true,
+            shade: 0.8,
+            content: htmlStr,
+            //style: 'border:none; background: transparent;',
+            title: false,
+            maxmin: true,
+            shadeClose: true
+        });
+         **/
+        var pageii = layer.open({
+            type: 1
+            ,content: htmlStr
+            ,anim: 'up'
+            ,style: 'position:fixed; left:0; top:0; width:100%; height:100%; border: none; -webkit-animation-duration: .5s; animation-duration: .5s;'
+        });
+    }
+</script>

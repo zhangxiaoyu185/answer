@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="initial-scale=1 minimum-scale=1, maximum-scale=1,user-scalable=no,minimal-ui"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="js/mobiscroll/mobiscroll-2.13.2.full.min.css">
+    <link rel="stylesheet" href="css/iconfont/iconfont.css">
+    <link rel="stylesheet" href="plugins/bxslider/jquery.bxslider.css">
+    <link rel="stylesheet" type="text/css" href="plugins/layer/need/layer.css" />
+    <title>答题</title>
+    <script type="text/javascript" src="plugins/jquery-3.0.0.min.js"></script>
+    <script type="text/javascript" src="../common.js"></script>
+    <script type="text/javascript" src="plugins/bxslider/jquery.bxslider.js"></script>
+    <script type="text/javascript" src="plugins/layer/layer.js"></script>
+    <script type="text/javascript" src="js/common/common.js"></script>
+    <script type="text/javascript" src="js/common/cutscreen.js"></script>
+    <script src="js/mobiscroll/mobiscroll-2.13.2.full.min.js"></script>
+</head>
+<style>
+    .mbsc-android-holo .dw-li {
+        color: #333;
+        font-size: .24rem;
+    }
+    .mbsc-android-holo .dwv {
+        border-bottom: 1px solid #31b6e7;
+        font-size: .28rem;
+    }
+    .bxslider1{
+        position: fixed;
+        width: 100%;
+        z-index: 11111;
+    }
+</style>
+<body>
+<div class="exam">
+    <div class="exam_header">
+    <div class="top">
+        <ul>
+            <li id="paperTitle" class="title">模拟考卷练习</li>
+            <li id="dyncTime" class="time tc"></li>
+        </ul>
+    </div>
+    <ul class="info">
+        <li id="userCode"></li>
+        <li id="userName"></li>
+        <li id="userGrade"></li>
+        <li id="exit">退出系统</li>
+    </ul>
+    </div>
+
+    <ul id="paperContent" class="fill" style=" margin-top: 2.8rem;">
+    </ul>
+
+    <div class="exam_btn tc">提交</div>
+    <!-- banner轮播图 -->
+    <ul class="bxslider bxslider1">
+    </ul>
+</div>
+
+</body>
+</html>
+<script>
+    var h = 0,m = 0,s = 0;
+    var crpsaLening;
+    var crpsaPaper;
+    var arr = [];
+    var paper;
+    $(function () {
+        starttime();
+
+        /*paper = dataGet('paper');
+        if(!paper) {
+            paper = GetParpam('paper');
+            if(!paper) {
+                dataSave('errorContent', "试卷不存在,请重新扫码");
+                nextView('view/error.html');
+                return;
+            }
+        }
+
+        getPapers();
+
+        $(".exam_btn").click(function () {
+            savePaperAnswer();
+        });
+
+        $("#exit").click(function () {
+            nextView('login.html?paper='+paper);
+        });*/
+
+        getBanner();
+    });
+
+    function getBanner() {
+        var str = '';
+        var url = WEB_URL + "busiAdvert/find/all";
+        ajaxTool("get", str, url,
+            function error(XMLHttpRequest, textStatus, errorThrown, fnErr) {
+                alert("error:" + str);
+            },
+            function success(data) {
+                if (!data.success) {
+                    alert(data.errMsg);
+                } else {
+                    var strhtml_selectUl = '';
+                    var arrData = data.data;
+                    var ln = arrData.length;
+                    for (var i = 0; i < ln; i++) {
+                        strhtml_selectUl += '<li><a href="'+arrData[i].bsaetLink+'"><img src="'+WEB_URL + "/coreAttachment/image/get/"+arrData[i].bsaetPic+'" width="100%"></a></li>';
+                    }
+                    $('.bxslider').html(strhtml_selectUl);
+
+                    // 轮播图
+                    $('.bxslider').bxSlider({
+                        mode: 'horizontal', //默认的是水平
+                        displaySlideQty: 1,//显示li的个数
+                        moveSlideQty: 1,//移动li的个数
+                        captions: true,//自动控制
+                        auto: true, //自动播放
+                        speed: 200,
+                        pager:false, //不显示下方的页码
+                        controls: false//隐藏左右按钮
+                    });
+                }
+            }, true);
+    }
+
+    function settime(a){
+        if(a<10)
+            a = "0"+a;
+        return a;
+    }
+
+    function starttime(){
+        var showh = settime(h);
+        var showm = settime(m);
+        var shows = settime(s);
+        $('#dyncTime').html("考试时间："+showh+":"+showm+":"+shows);
+        s++;
+        if(s == 60)
+        {
+            s = 0;
+            m++;
+        }
+        if(m == 60){
+            m = 0;
+            h++;
+        }
+        t = setTimeout("starttime()",1000);
+    }
+
+    function getPapers() {
+        var userUuid = dataGet('userUuid');
+        var crusrCode = dataGet('crusrCode');
+        var crusrName = dataGet('crusrName');
+        if(!userUuid || !crusrName || !crusrCode) {
+            //用户信息缺失，跳转到登陆页面
+            layer.open({
+                content: "用户信息已过期，请重新登陆"
+                ,skin: 'msg'
+                ,time: 1 //2秒后自动关闭
+            });
+            setTimeout("nextView('login.html?paper="+paper+"')", 500);
+            return;
+        }
+        //判断权限
+        var urljudge = WEB_URL + "coreUser/judge/turn";
+        var strdata1 = {
+            user: userUuid,
+            paper: paper
+        };
+        ajaxTool("post", strdata1, urljudge,
+            function error(XMLHttpRequest, textStatus, errorThrown, fnErr) {
+                alert("error:" + str);
+            },
+            function success(data) {
+                if (!data.success) {
+                    layer.open({
+                        content: data.errMsg
+                        ,skin: 'msg'
+                        ,time: 1 //2秒后自动关闭
+                    });
+                    setTimeout("nextView('login.html?paper="+paper+"')", 500);
+                    return;
+                }
+            }, true);
+        $("#userCode").html(crusrCode);
+        $("#userName").html(crusrName);
+        //获取题目数据
+        var url = WEB_URL + "corePapers/views";
+        var strdata = {
+            crpesUuid: paper
+        };
+        ajaxTool("post", strdata, url,
+            function error(XMLHttpRequest, textStatus, errorThrown, fnErr) {
+                alert("error:" + str);
+            },
+            function success(data) {
+                if (!data.success) {
+                    nextView('login.html?paper='+paper);
+                    return;
+                } else {
+                    var arrData = data.data;
+                    if(arrData.crpesOpen == 0) {
+                        dataSave('errorContent', "该试卷还未开放,开放后才能答题");
+                        nextView('view/error.html');
+                        return;
+                    }
+                    crpsaLening = arrData.crpesLening;
+                    crpsaPaper = arrData.crpesUuid;
+                    $("#paperTitle").html(arrData.crpesName);
+                    $("#userGrade").html(arrData.crlngName);
+                    var strhtml_selectUl = '';
+                    var crpesQuestion = data.data.crpesQuestion;
+                    if(''==crpesQuestion || undefined==crpesQuestion){
+                        alert('没有题目');
+                        return;
+                    }
+                    var parsedJson = jQuery.parseJSON(crpesQuestion);
+                    var problemJsonArray = parsedJson.problem;
+                    var ln = problemJsonArray.length;
+                    for (var i = 0; i < ln; i++) {
+                        strhtml_selectUl += '<li><p>'+problemJsonArray[i].name+'</p><input class="answerContent" data-name="'+problemJsonArray[i].name+'" ' +
+                            'data-dirMovie="'+problemJsonArray[i].dirMovie+'" data-result="'+problemJsonArray[i].result+'" data-oldScore="'+problemJsonArray[i].oldScore+'"' +
+                            ' data-movie="'+problemJsonArray[i].movie+'" type="text" name="content" placeholder="请输入答案"></li>';
+                    }
+                    $('#paperContent').html(strhtml_selectUl);
+                }
+            }, true);
+    }
+
+    function savePaperAnswer() {
+        arr = [];
+        $(".answerContent").each(function () {
+            var name=$(this).attr("data-name");
+            var dirMovie=$(this).attr("data-dirMovie");
+            var result=$(this).attr("data-result");
+            var oldScore=$(this).attr("data-oldScore");
+            var movie=$(this).attr("data-movie");
+            var content=$(this).val();
+            var json={
+                "name": name,
+                "result": result,
+                "oldScore": oldScore,
+                "dirMovie": dirMovie,
+                "movie": movie,
+                "content": content
+            };
+            arr.push(json);
+        });
+        var question = {};
+        question.problem = arr;
+        var questionsAnswerContent = JSON.stringify(question);
+        var data = {
+            crpsaLening: crpsaLening,
+            crpsaPaper: crpsaPaper,
+            crpsaUser: dataGet('userUuid'),
+            questionsAnswerContent: questionsAnswerContent
+        }
+        var url = WEB_URL + "corePapersAnswer/add/corePapersAnswer";
+        ajaxTool("post",data,url,
+            function error(XMLHttpRequest, textStatus, errorThrown,fnErr){
+                alert(JSON.stringify(data));
+            },
+            function success(odata){
+                if(!odata.success) {
+                    alert(odata.errMsg);
+                }else{
+                    layer.open({
+                        content: odata.errMsg
+                        ,skin: 'msg'
+                        ,time: 1 //2秒后自动关闭
+                    });
+                    setTimeout("nextView('view.html?paper="+paper+"')", 500);
+                }
+            },true
+        );
+    }
+</script>

@@ -1,0 +1,171 @@
+/*公共样式--开始*/
+html, body, div, ul, li, h1, h2, h3, h4, h5, h6, p, dl, dt, dd, ol, form, input, textarea, th, td, select {
+    margin: 0;
+    padding: 0;
+    font-family: "Microsoft YaHei";
+}
+*{  box-sizing: border-box;
+    -moz-box-sizing:border-box; /* Firefox */
+    -webkit-box-sizing:border-box; /* Safari */
+}
+html{
+   /* font-size: 100px;*/
+    height: 100%;
+}
+body {
+    font-family: "Microsoft YaHei";
+    color:#333;
+    height: 100%;
+}
+h1, h2, h3, h4, h5, h6{font-weight:normal;}
+ul,ol {
+    list-style: none;
+}
+
+img {
+    border: none;
+    vertical-align: middle;
+}
+
+a {
+    text-decoration: none;
+    color: #232323;
+}
+
+table {
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+input, textarea {
+    outline: none;
+    border: none;
+}
+
+textarea {
+    resize: none;
+    overflow: auto;
+}
+
+.clearfix {
+    zoom: 1;
+}
+
+.clearfix:after {
+    content: ".";
+    width: 0;
+    height: 0;
+    visibility: hidden;
+    display: block;
+    clear: both;
+    overflow:hidden;
+}
+
+.fl {
+    float: left
+}
+
+.fr {
+    float: right
+}
+
+.tl {
+    text-align: left;
+}
+
+.tc {
+    text-align: center
+}
+
+.tr {
+    text-align: right;
+}
+
+.ellipse {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.inline{
+    display: inline-block;
+    *display: inline;
+    *zoom: 1;
+}
+
+input:-ms-input-placeholder{
+		color: #999;
+		letter-spacing: 2px;
+		padding: 0px;
+}
+input::-webkit-input-placeholder{
+		color: #999;
+		letter-spacing: 2px;
+		padding: 0px;
+}
+
+
+
+
+
+
+
+@media screen and (min-width: 320px) {html{font-size:50px;}}
+@media screen and (min-width: 360px) {html{font-size:56.25px;}}
+@media screen and (min-width: 375px) {html{font-size:58.59375px;}}
+@media screen and (min-width: 400px) {html{font-size:62.5px;}}
+@media screen and (min-width: 414px) {html{font-size:64.6875px;}}
+@media screen and (min-width: 440px) {html{font-size:68.75px;}}
+@media screen and (min-width: 480px) {html{font-size:75px;}}
+@media screen and (min-width: 520px) {html{font-size:81.25px;}}
+@media screen and (min-width: 560px) {html{font-size:87.5px;}}
+@media screen and (min-width: 600px) {html{font-size:93.75px;}}
+
+
+
+
+
+/*@media screen and (min-width: 640px) {html{font-size:100px;}}*/
+/*@media screen and (min-width: 680px) {html{font-size:106.25px;}}*/
+/*@media screen and (min-width: 720px) {html{font-size:112.5px;}}*/
+@media screen and (min-width: 760px) {
+    html {
+        font-size: 100px;
+    }
+    .mbsc-android-holo .dw-li {
+        font-size: .22rem!important;
+    }
+    .dwwr {
+        min-width: 240px!important;
+    }
+    .mbsc-android-holo .dwv {
+        font-size: .24rem!important;
+    }
+    .mbsc-android-holo .dwv {
+        line-height: 60px!important;
+    }
+    .mbsc-android-holo .dwb {
+        height: 52px!important;
+        line-height: 52px!important;
+        font-size: 20px!important;
+    }
+    .login_bg .title {
+        padding-top: 1.2rem!important;
+    }
+}
+/*@media screen and (min-width: 800px) {html{font-size:125px;}}*/
+/*@media screen and (min-width: 840px) {html{font-size:131.25px;}}*/
+/*@media screen and (min-width: 880px) {html{font-size:137.5px;}}*/
+/*@media screen and (min-width: 920px) {html{font-size:143.75px;}}*/
+/*@media screen and (min-width: 960px) {html{font-size:150px;}}*/
+/*@media screen and (min-width: 1040px) {html{font-size:162.5px;}}*/
+/*@media screen and (min-width: 1120px) {html{font-size:175px;}}*/
+/*@media screen and (min-width: 1200px) {html{font-size:187.5px;}}*/
+/*@media screen and (min-width: 1280px) {html{font-size:200px;}}*/
+/*@media screen and (min-width: 1360px) {html{font-size:212.5px;}}*/
+/*@media screen and (min-width: 1440px) {html{font-size:225px;}}*/
+/*@media screen and (min-width: 1520px) {html{font-size:237.5px;}}*/
+/*@media screen and (min-width: 1600px) {html{font-size:250px;}}*/
+
+
+
+

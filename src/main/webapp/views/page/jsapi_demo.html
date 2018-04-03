@@ -1,0 +1,68 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script type="text/javascript" src="../public/js/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="../../common.js"></script>
+<style>
+.choose {
+	width: 500px;
+	height: 300px;
+	margin: 0 auto;
+	background: #FCF;
+	margin-top: 150px;
+	text-align: center;
+	padding-top: 100px;
+}
+</style>
+</head>
+<body>
+	<div class="choose">Click me to pay</div>
+</body>
+<script>
+ 	$(document).ready( function(){
+		$(".choose").click(function(){
+			var data = '&totalFee=0.01&body=用户充值&userUuid=1Hh7lPWqqa4NnpAj&openId=oN3gGjznNRBwgUeGt-jLl3_w7yfo&attach=1';
+			var url = urlfile + "pay/get/package";
+			ajaxTool("post",data,url,
+					function error(XMLHttpRequest, textStatus, errorThrown,fnErr){
+					},
+					function success(data){
+						if(data.code == 1) {
+		
+							var str = window.navigator.userAgent;
+							var version = str.substring(8, 11);
+							if (version != "5.0") {
+								alert("微信浏览器系统版本过低，请将微信升级至5.0以上");
+							} else {
+								WeixinJSBridge.invoke('getBrandWCPayRequest', {
+											"appId" : data.data.appId, //公众号名称，由商户传入
+											"timeStamp" : data.data.timeStamp, //时间戳
+											"nonceStr" : data.data.nonceStr, //随机串
+											"package" : data.data.packages,//统一支付接口返回的prepay_id 参数值，提交格式如：prepay_id=***
+											"signType" : data.data.signType, //微信签名方式:sha1
+											"paySign" : data.data.paySign //微信签名
+								}, function(res) {
+									//WeixinJSBridge.log(res.err_msg);
+									//alert(res.err_code +","+ res.err_desc +" ,"+ res.err_msg);
+									// get_brand_wcpay_request:cancel 用户取消
+									// get_brand_wcpay_request:fail 发送失败
+									// get_brand_wcpay_request:ok //发送成功
+									// WeixinJSBridge.log(res.err_msg);alert(res);
+									//alert(res.err_code + res.err_desc);
+									alert(res.err_msg);
+									if (res.err_msg == "get_brand_wcpay_request:ok") {
+										alert("支付成功");
+									} else if (res.err_msg == "get_brand_wcpay_request:cancel") {
+										alert("取消支付");
+									} else if (res.err_msg == "get_brand_wcpay_request:fail") {
+										alert("支付失败");
+									}
+								});
+							}
+						}
+					});
+		});
+  });
+</script>
+</html>
